@@ -23,3 +23,7 @@ toolkit/        drawing helpers and the example sets (used by clawd.md)
 clawd.md        instructions for Claude
 build.py        rebuilds sets/, zips/ and sets.js (maintainer only)
 ```
+
+---
+
+Fan project, made for fun and not for profit. Not affiliated with, endorsed or sponsored by Anthropic. Clawd, Claude and Claude Code are Anthropic's names and marks ([trademark guidelines](https://www.anthropic.com/legal/trademark-guidelines)). If Anthropic wants anything changed or removed, open an issue.
