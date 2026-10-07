@@ -35,7 +35,7 @@
   .sub strong { color:var(--ink); }
   main { max-width:1100px; margin:0 auto; }
   main.doc { margin:0 auto 0 max(0px, calc((100% - 1100px) / 2)); }
-  details.grp { margin:0 0 4px; }
+  details.grp { margin:0 0 4px; scroll-margin-top:68px; }
   details.grp > summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:10px; margin:20px 0 14px; padding-bottom:8px; border-bottom:1px solid var(--line); user-select:none; }
   details.grp > summary::-webkit-details-marker { display:none; }
   details.grp > summary::before { content:''; width:0; height:0; border-left:6px solid var(--muted); border-top:5px solid transparent; border-bottom:5px solid transparent; transition:transform .15s; }
@@ -48,7 +48,7 @@
   .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; display:flex; flex-direction:column; align-items:center; gap:12px; }
   .stage { border:0; cursor:zoom-in; display:block; }
   .stage { width:100%; background:var(--stage); border-radius:8px; padding:8px; }  /* mid grey: white and dark animations both stay visible */
-  .card img { width:100%; image-rendering:pixelated; }
+  .card img { aspect-ratio:3/1; height:auto; width:100%; image-rendering:pixelated; }
   .row { width:100%; display:flex; justify-content:space-between; align-items:center; }
   .name { font-size:15px; font-weight:600; text-transform:capitalize; }
   dialog { border:0; padding:0; background:transparent; max-width:none; max-height:none; overflow:visible; }
@@ -93,6 +93,12 @@
   .copybtn { font:600 12px system-ui; padding:4px 10px; border-radius:6px; border:1px solid #4a4845; background:transparent; color:#f0eee6; cursor:pointer; }
   .copybtn:hover, .copybtn:focus-visible { background:var(--accent); border-color:var(--accent); color:#fff; outline:none; }
   code { font-family:ui-monospace,Consolas,monospace; }
+  .dact { display:flex; gap:8px; margin-top:14px; }
+  .btn { display:inline-flex; align-items:center; gap:8px; padding:8px 14px; border:1px solid var(--line); border-radius:8px; background:var(--card); color:var(--ink); font:600 14px system-ui; text-decoration:none; cursor:pointer; }
+  .btn.icon { padding:8px 10px; }
+  .btn:hover, .btn:focus-visible { background:var(--accent); border-color:var(--accent); color:#fff; outline:none; }
+  .toast { position:fixed; left:50%; bottom:28px; transform:translate(-50%, 12px); background:#1f1e1d; color:#f0eee6; padding:10px 18px; border-radius:999px; font:600 14px system-ui; opacity:0; pointer-events:none; transition:opacity .2s, transform .2s; z-index:10; }
+  .toast.show { opacity:1; transform:translate(-50%, 0); }
   .desc { color:var(--muted); font-size:13px; }
   a.all { display:inline-flex; align-items:center; gap:8px; margin-top:12px; padding:8px 14px; border-radius:8px; border:1px solid var(--line); color:var(--ink); text-decoration:none; font-size:14px; font-weight:600; }
   a.all:hover, a.all:focus-visible { background:var(--accent); border-color:var(--accent); color:#fff; outline:none; }
@@ -130,7 +136,12 @@
   </ol>
 </main></div>
 <dialog id="dlg"><div class="box"><button class="x" aria-label="Close">&times;</button>
-  <div class="stage"><img id="big" alt=""></div><h3 id="bigname"></h3><div class="desc" id="bigdesc"></div></div></dialog>
+  <div class="stage"><img id="big" alt=""></div><h3 id="bigname"></h3><div class="desc" id="bigdesc"></div>
+  <div class="dact">
+    <a class="btn" id="bigdl" download><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>Download</a>
+    <button class="btn icon" id="bigcopy" type="button" title="Copy link to the GIF" aria-label="Copy link to the GIF"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button>
+  </div>
+  <div class="toast" id="toast" role="status"></div></div></dialog>
 <dialog id="mddlg"><div class="box mdbox"><button class="x" aria-label="Close">&times;</button>
   <div class="mdhead"><strong>clawd.md</strong><a href="https://github.com/CodeChrisB/MyClawd/blob/main/clawd.md" target="_blank" rel="noopener">open on GitHub</a></div>
   <article class="md" id="mdbody">Loading...</article></div></dialog>
@@ -141,13 +152,14 @@
 const svg = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>';
 const card = n => `
   <div class="card">
-    <button class="stage" data-set="${n}" aria-label="Enlarge ${n}"><img src="sets/${n}/full.gif" alt="${n}" loading="lazy"></button>
+    <button class="stage" data-set="${n}" aria-label="Enlarge ${n}"><img src="sets/${n}/full.gif" alt="${n}" width="192" height="64" loading="lazy"></button>
     <div class="row"><div><div class="name">${n.replace(/-/g, ' ').replace(/api/, 'API')}</div><div class="desc">${DESC[n] || ''}</div></div>
     <a class="dl" href="zips/${n}.zip" download title="Download ${n} (full, enter, exit, all loops)" aria-label="Download ${n}">${svg}</a></div>
   </div>`;
 document.getElementById('count-note').innerHTML = `We already have <strong>${GROUPS.reduce((n, g) => n + g.sets.length, 0)} animation sets</strong> in ${GROUPS.length} categories. Need one that is not there? Make your own below.`;
+const slug = t => t.toLowerCase().replace(/[^a-z0-9]+/g, '-');                  // category title -> link, e.g. #build-and-ci
 const wide = matchMedia('(min-width: 721px)').matches;                       // groups start open on a computer, collapsed on a phone
-document.getElementById('grid').innerHTML = GROUPS.map(g => `<details class="grp"${wide ? ' open' : ''}><summary><h2>${g.title}</h2><span class="cnt">${g.sets.length}</span></summary><section>${g.sets.map(card).join('')}</section></details>`).join('');
+document.getElementById('grid').innerHTML = GROUPS.map(g => `<details class="grp" id="${slug(g.title)}"${wide ? ' open' : ''}><summary><h2>${g.title}</h2><span class="cnt">${g.sets.length}</span></summary><section>${g.sets.map(card).join('')}</section></details>`).join('');
 // header demo: enter -> one random loop variant -> exit, then a different random set, all seamless
 const hero = document.getElementById('hero'), sleep = ms => new Promise(r => setTimeout(r, ms));
 const pick = a => a[Math.floor(Math.random() * a.length)];
@@ -168,12 +180,36 @@ async function demo() {
 let prev = ''; demo();
 
 const tabs = ['animations', 'create'];
+const slugs = GROUPS.map(g => slug(g.title));
+let lockUntil = 0;                                                          // ignore the scroll spy while we scroll to a link ourselves
 function route() {
-  const t = tabs.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'animations';
+  const h = location.hash.slice(1);
+  const t = tabs.includes(h) ? h : 'animations';
   tabs.forEach(n => document.getElementById(n).hidden = n !== t);
   document.querySelectorAll('.tab').forEach(a => a.toggleAttribute('aria-current', a.hash === '#' + t));
+  if (t !== 'animations') return;
+  const cat = document.getElementById(h);
+  if (cat && slugs.includes(h)) {                                           // a category link: open it and put it at the top
+    cat.open = true;
+    lockUntil = Date.now() + 700;
+    cat.scrollIntoView({ block: 'start' });
+  } else if (h === 'animations') { lockUntil = Date.now() + 700; scrollTo(0, 0); }
 }
 addEventListener('hashchange', route); route();
+const setHash = id => { if (location.hash.slice(1) !== id) history.replaceState(null, '', '#' + id); };
+document.querySelectorAll('details.grp').forEach(d => d.addEventListener('toggle', () => { if (d.open && Date.now() > lockUntil) setHash(d.id); }));
+let spyQueued = false;
+addEventListener('scroll', () => {                                         // the category at the top of the screen goes into the link
+  if (spyQueued || Date.now() < lockUntil || document.getElementById('animations').hidden) return;
+  spyQueued = true;
+  setTimeout(() => {
+    spyQueued = false;
+    const edge = (document.querySelector('.bar')?.offsetHeight || 52) + 24;
+    let cur = 'animations';
+    for (const g of document.querySelectorAll('details.grp')) if (g.getBoundingClientRect().top <= edge) cur = g.id;
+    setHash(cur);
+  }, 60);
+}, { passive: true });
 
 document.querySelectorAll('.copybtn').forEach(b => b.addEventListener('click', async () => {
   const code = b.closest('.cb').querySelector('code');
@@ -201,7 +237,21 @@ document.getElementById('grid').addEventListener('click', e => {
   document.getElementById('big').src = `sets/${n}/full.gif`;
   document.getElementById('bigname').textContent = n.replace(/-/g, ' ').replace(/api/, 'API');
   document.getElementById('bigdesc').textContent = DESC[n] || '';
+  document.getElementById('bigdl').href = `zips/${n}.zip`;
+  document.getElementById('bigdl').title = `Download ${n} (full, enter, exit, all loops)`;
+  document.getElementById('bigcopy').dataset.set = n;
   dlg.showModal();
+});
+let toastTimer;
+function toast(msg) {                                                       // lives inside the dialog, so it shows above it
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 1800);
+}
+document.getElementById('bigcopy').addEventListener('click', async e => {
+  const url = new URL(`sets/${e.currentTarget.dataset.set}/full.gif`, location.href).href;
+  try { await navigator.clipboard.writeText(url); toast('Link copied to clipboard'); }
+  catch { toast('Could not copy the link'); }
 });
 dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.x')) dlg.close(); });  // dialog has no padding, so a hit on it itself is the backdrop; Esc is built in
 </script>
