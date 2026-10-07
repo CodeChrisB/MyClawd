@@ -451,7 +451,7 @@ def accessory(draw, head_x, head_y, head_w, kind, scale, bright=True, lift=0):
                 R(draw, x + col * scale, y + r * scale, scale, scale, c)
 
 
-def sibling(draw, cx, g, color, bright, hop=0, smile=False, blink=False, kind=0):
+def sibling(draw, cx, g, color, bright, hop=0, smile=False, blink=False, kind=None, look=0):
     c = color if bright else mix(color, (30, 34, 46), 0.62)
     ox, oy = cx - 4 * g, FLOOR - 8 * g - hop
     R(draw, ox, oy, 8 * g, 2 * g, c)
@@ -464,12 +464,13 @@ def sibling(draw, cx, g, color, bright, hop=0, smile=False, blink=False, kind=0)
         if blink:
             R(draw, ox + ex * g, oy + g + g // 2, g, 1, eye)
         else:
-            R(draw, ox + ex * g, oy + g, g, g, eye)
+            R(draw, ox + ex * g + look, oy + g, g, g, eye)
     if smile and g > 1:
         R(draw, ox + 3 * g, oy + 2 * g + 1, 1, 1, eye)
         R(draw, ox + 3 * g + 1, oy + 2 * g + 2, 2 * g - 2 if g > 2 else 2, 1, eye)
         R(draw, ox + 5 * g - 1, oy + 2 * g + 1, 1, 1, eye)
-    accessory(draw, ox, oy, 8 * g, kind, 1, bright)
+    if kind is not None:
+        accessory(draw, ox, oy, 8 * g, kind, 1, bright)
 
 
 def model_frame(sel=1, pos=None, hop=0, sparkle=None, look=(2, 1), blink=False, bob=0, slide=0, smile=False, mblink=False):

@@ -107,6 +107,7 @@ This lets a player switch from any GIF to any other without a jump. `save_set` c
 - Anti-aliased edges against the transparent canvas turn pink (they are blended with the magenta export key). Inside the dark panel it is fine.
 - A new top-level name in a set file can shadow a helper from `clawd_core` or `props`. Grep before you add one.
 - Quantisation: all frames of a GIF share one palette, so a scene with many unrelated colours may shift slightly. Keep to a small palette per set.
+- Objects must be physically right: an open padlock keeps its long shackle leg in the body and only the other leg comes out; a key points its tip at the lock. Check the direction of anything that moves toward something.
 - Only Pillow is needed. Do not add other dependencies.
 - Do not run `build.py`; it belongs to the site, not to creating a GIF.
 
@@ -127,6 +128,8 @@ This lets a player switch from any GIF to any other without a jump. `save_set` c
 | Tests, review, speed lines, a gift, a corkboard, a dimmed overlay, small siblings with accessories, a background widget | `misc_sets.py` | `testing`, `code-review`, `fast-mode`, `update-available`, `memory-write`, `interrupt`, `model-switch`, `background-task` |
 | Signal loss, request floods, glitches, a page fetch | `net_sets.py` | `offline`, `overloaded`, `crash`, `web-fetch` |
 | A key in a lock, a book with a bookmark, a wipe | `cmd_sets.py` | `login`, `resume`, `clear` |
+| Failure and retry, a todo list, goodbye, waiting agents, a timeline, a skill cartridge, a clock, linked windows | `event_sets.py` | `tool-failure`, `todo-list`, `session-end`, `teammate-idle`, `rewind`, `skills`, `scheduled-task`, `ide-connected` |
+| Idle scenes with a prop and several variants (no panel) | `idle_sets.py` | `idle-coffee`, `idle-book` |
 
 ## Files
 

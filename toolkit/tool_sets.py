@@ -77,13 +77,15 @@ def tools_connect(calls):
 
 # ---------------------------------------------------------------- permission: waiting for an Allow click
 def lock(draw, x, y, state, dx=0):
-    """state: closed, open, denied. Body 16x12 with shackle above."""
+    """state: closed, open, denied. Body 16x12 with a shackle above. Open: the shackle lifts, its long leg stays in the body,
+    only the other leg comes out."""
     body = {"closed": AMBER, "open": GREEN, "denied": RED}[state]
     sx = x + dx
     up = 4 if state == "open" else 0
-    R(draw, sx + 3, y - 8 - up, 2, 8, (190, 194, 205))
-    R(draw, sx + 11, y - 8 - up + (4 if state == "open" else 0), 2, 8 - (4 if state == "open" else 0), (190, 194, 205))
-    R(draw, sx + 3, y - 10 - up, 10, 2, (190, 194, 205))
+    steel = (190, 194, 205)
+    R(draw, sx + 3, y - 8 - up, 2, 8 + up, steel)                            # the leg that stays in the body
+    R(draw, sx + 11, y - 8 - up, 2, 8, steel)                                # the free leg: lifted clear of the body when open
+    R(draw, sx + 3, y - 10 - up, 10, 2, steel)
     R(draw, sx, y, 16, 12, body)
     R(draw, sx + 7, y + 3, 2, 4, DARK)
 

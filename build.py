@@ -7,18 +7,19 @@ from pathlib import Path
 SRC = Path(__file__).parent / '_source' / 'statusbar'  # copy of Downloads/gifs.zip (2026-10-07); keep out of the published repo
 EXCLUDE = {'youtrack'}  # company-branded, not published
 GROUPS = {  # section title -> sets, in display order; anything unlisted lands in 'Other'
-    'Working': ['writing', 'reading', 'thinking', 'testing', 'code-review', 'ask', 'permission'],
+    'Working': ['writing', 'reading', 'thinking', 'todo-list', 'testing', 'code-review', 'ask', 'permission'],
     'Modes': ['mode-plan', 'mode-edit', 'mode-auto', 'fast-mode', 'model-switch'],
     'Effort': ['effort-low', 'effort-medium', 'effort-high', 'effort-xhigh', 'effort-max'],
-    'Agents': ['agent', 'agents', 'handoff', 'background-task'],
+    'Agents': ['agent', 'agents', 'handoff', 'teammate-idle', 'background-task'],
     'Git': ['git', 'git-commit', 'git-push', 'git-pr'],
-    'Tools': ['search', 'web-fetch', 'browser', 'bash', 'trading', 'tools', 'deploy', 'database', 'download'],
+    'Tools': ['search', 'web-fetch', 'browser', 'bash', 'trading', 'tools', 'skills', 'ide-connected', 'scheduled-task', 'deploy', 'database', 'download'],
     'Context': ['context-empty', 'context-quarter', 'context-half', 'context-three-quarters', 'context-full', 'compacting',
                 'memory-write'],
     'Limits': ['limit-5h', 'limit-7d', 'limit-api-cost'],
-    'Session': ['session-start', 'login', 'prompt', 'cwd', 'resume', 'clear', 'done', 'interrupt', 'update-available'],
-    'Problems': ['offline', 'overloaded', 'stop-failure', 'crash'],
-    'Idle': ['idle', 'idle-chat', 'idle-doze', 'idle-heart', 'idle-look', 'idle-swag', 'idle-walk', 'idle-yawn'],
+    'Session': ['session-start', 'login', 'prompt', 'cwd', 'resume', 'rewind', 'clear', 'done', 'interrupt', 'update-available',
+                'session-end'],
+    'Problems': ['tool-failure', 'offline', 'overloaded', 'stop-failure', 'crash'],
+    'Idle': ['idle', 'idle-coffee', 'idle-book', 'idle-chat', 'idle-doze', 'idle-heart', 'idle-look', 'idle-swag', 'idle-walk', 'idle-yawn'],
     'Idle with music': ['radio', 'dj', 'disco'],
 }
 DESC = {  # one line per set, shown under the name
@@ -41,7 +42,11 @@ DESC = {  # one line per set, shown under the name
     'interrupt': 'You interrupted Claude with Esc', 'background-task': 'Claude works while a background task runs',
     'effort-low': 'Low effort: calm and quick', 'effort-medium': 'Medium effort: steady work',
     'effort-high': 'High effort: focused', 'effort-xhigh': 'Extra high effort: working hard',
-    'effort-max': 'Max effort: everything Claude has', 'offline': 'No connection: Claude is offline', 'overloaded': 'The API is overloaded (529)',
+    'effort-max': 'Max effort: everything Claude has', 'tool-failure': 'A tool failed, Claude retries', 'todo-list': 'Claude works through a todo list',
+    'session-end': 'The session ends', 'teammate-idle': 'Teammate agents wait for work', 'rewind': 'Claude rewinds the conversation',
+    'skills': 'Claude loads a skill', 'scheduled-task': 'A scheduled task fires', 'ide-connected': 'Claude connects to the IDE',
+    'idle-coffee': 'Idle, with a coffee', 'idle-book': 'Idle, reading a book',
+    'offline': 'No connection: Claude is offline', 'overloaded': 'The API is overloaded (529)',
     'crash': 'Claude Code crashed and restarts', 'web-fetch': 'Claude fetches a web page', 'login': 'Claude logs in',
     'resume': 'Claude resumes a conversation', 'clear': 'Claude clears the conversation', 'git-commit': 'Claude commits', 'git-push': 'Claude pushes to the remote', 'git-pr': 'Claude opens and merges a pull request', 'handoff': 'Claude hands over to another agent', 'limit-5h': 'Claude hit the 5-hour limit',
     'limit-7d': 'Claude hit the 7-day limit', 'limit-api-cost': 'Claude hit the API cost limit', 'git': 'Claude digs through git history and code',
