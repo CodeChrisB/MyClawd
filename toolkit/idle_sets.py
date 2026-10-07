@@ -96,40 +96,46 @@ def coffee_wake():
         frames.append(f(lift=ease((k + 1) / 4), f=6 + k, lid=0.7, look=(0, 2)))
     for k in range(3):
         frames.append(f(lift=1.0, f=10 + k, blink=True, lid=0.0))
-    for k in range(6):                                                       # eyes wide, jolt, sparkles
-        frames.append(f(lift=1.0 - ease(min(1, (k + 1) / 4)), f=13 + k, look=(0, 0), bob=-3 if k < 2 else (-1 if k < 4 else 0),
-                        spark=True, strong=2, smile=k > 3))
-    frames += [f(f=19 + k, smile=True, spark=k < 4, look=(0, 1), blink=k == 6) for k in range(7)]
+    for k in range(5):                                                       # eyes wide, a jolt: the mug stays in his hand
+        frames.append(f(lift=1.0, f=13 + k, look=(0, 0), bob=-3 if k < 2 else -1, spark=True, strong=2, smile=k > 2))
+    for k in range(6):                                                       # then he lowers it slowly, happy
+        frames.append(f(lift=1.0 - ease((k + 1) / 6), f=18 + k, look=(0, 1 if k > 2 else 0), spark=k < 3, smile=True))
+    frames += [f(f=24 + k, smile=True, look=(0, 1), blink=k == 5) for k in range(6)]
     return frames + [f(f=26, blink=True), f()]
 
 
 # ---------------------------------------------------------------- book
-def book(draw, x, y, flip=None, lines=0, scan=0):
-    R(draw, x - 1, y + 11, 34, 2, COVER)
-    R(draw, x, y, 15, 11, PAGE)
-    R(draw, x + 17, y, 15, 11, PAGE)
-    R(draw, x + 15, y, 2, 11, SPINE)
-    for side in (0, 17):
-        for i in range(3):
-            R(draw, x + 2 + side, y + 2 + i * 3, 11 - (i == 2) * 4, 1, PAGE_D)
+def book(draw, x, y, flip=None, scan=0):
+    """Open book, 40 x 14, cover edge in brown, a red bookmark at the spine. scan lights one text line."""
+    R(draw, x - 1, y - 1, 42, 16, COVER)
+    R(draw, x, y, 19, 13, PAGE)
+    R(draw, x + 21, y, 19, 13, PAGE)
+    R(draw, x + 19, y, 2, 13, SPINE)
+    R(draw, x + 20, y + 13, 2, 4, RED)
+    for side in (0, 21):
+        for i in range(4):
+            R(draw, x + 3 + side, y + 2 + i * 3, 13 - (i == 3) * 5, 1, PAGE_D)
     if scan:
-        R(draw, x + 2 + (17 if scan > 3 else 0), y + 2 + ((scan - 1) % 3) * 3, 8, 1, AMBER)
+        line = (scan - 1) % 4
+        side = 21 if scan > 4 else 0
+        R(draw, x + 3 + side, y + 2 + line * 3, 13, 1, AMBER)
     if flip is not None:                                                     # the right page turns over to the left
-        w = abs(round(14 * math.cos(flip * math.pi)))
-        R(draw, x + 16 - (w if flip > 0.5 else 0), y, max(1, w), 11, (250, 246, 236))
+        w = abs(round(19 * math.cos(flip * math.pi)))
+        R(draw, x + 20 - (w if flip > 0.5 else 0), y, max(1, w), 13, (252, 248, 238))
 
 
 def book_frame(off=0, flip=None, scan=0, look=SEAM, blink=False, lid=0.0, bob=0, smile=False, zf=None, tilt=0, f=0):
     img, draw = new_frame()
     clawd(draw, look=look, blink=blink, lid=lid, bob=bob)
-    face(draw, bob, smile)
-    bx, by = 24, 22 + bob + off + tilt
-    R(draw, 16, by + 6 - off * 0, 9, 4, CORAL) if off == 0 else None        # forearms to the book
-    R(draw, 55, by + 6, 9, 4, CORAL) if off == 0 else None
-    book(draw, bx, by, flip, scan=scan)
-    if off == 0:
-        R(draw, 20, by + 4, 5, 5, CORAL)
-        R(draw, 55, by + 4, 5, 5, CORAL)
+    if smile:
+        draw_smile(draw, OX + 4 * G, OY + 2 * G + 1 + bob)
+    bx, by = 20, 24 + bob + off + tilt
+    book(draw, bx, by, flip, scan)
+    if off == 0:                                                             # both hands hold the book
+        R(draw, bx - 5, by + 6, 6, 7, CORAL)
+        R(draw, bx + 39, by + 6, 6, 7, CORAL)
+        R(draw, bx - 3, by + 11, 4, 2, CORAL)
+        R(draw, bx + 39, by + 11, 4, 2, CORAL)
     if zf is not None:
         zzz(draw, zf, 66, 22, 3)
     return img
