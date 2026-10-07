@@ -98,6 +98,9 @@
   .fine a.mdlink { font-weight:500; }
   .legal-gif .stage { cursor:default; }
   .legal-gif img { width:100%; image-rendering:pixelated; display:block; }
+  .fl { max-width:1100px; margin:72px auto 0; padding:0 16px 8px; text-align:right; }
+  .fl a { font-size:11px; color:var(--muted); opacity:.55; text-decoration:none; }
+  .fl a:hover, .fl a:focus-visible { opacity:1; text-decoration:underline; outline:none; }
   .doc { max-width:760px; }
   a.mdlink { color:var(--accent); font-weight:600; text-decoration:underline; text-underline-offset:3px; }
   a.mdlink code { color:inherit; }
@@ -129,7 +132,7 @@
 <body>
 <header class="bar"><nav>
   <a class="brand" href="#animations">MyClawd</a>
-  <a class="tab" href="#animations">Animations</a><a class="tab" href="#create">Create your own</a><a class="tab" href="#legal">Legal</a>
+  <a class="tab" href="#animations">Animations</a><a class="tab" href="#create">Create your own</a>
 </nav></header>
 <div class="page" id="animations">
 <div class="head"><div>
@@ -168,6 +171,7 @@
   <div class="legal-gif"><div class="stage"><img src="sets/legal/full.gif" alt="Clawd stamps a legal page FREE" width="192" height="64"></div></div>
   <p class="fine">Want another GIF? <a class="mdlink" href="https://github.com/CodeChrisB/MyClawd/issues/new" target="_blank" rel="noopener">Create an issue</a>. I only accept requests that already link to a full set of GIFs: entry, loop plus variants, and exit.</p>
 </main></div>
+<footer class="fl" id="fl"><a href="#legal">Legal</a></footer>
 <dialog id="dlg"><div class="box"><button class="x" aria-label="Close">&times;</button>
   <div class="stage"><img id="big" alt=""></div><h3 id="bigname"></h3><div class="desc" id="bigdesc"></div>
   <div class="dact">
@@ -228,6 +232,7 @@ function route() {
   const t = tabs.includes(h) ? h : 'animations';
   tabs.forEach(n => document.getElementById(n).hidden = n !== t);
   document.querySelectorAll('.tab').forEach(a => a.toggleAttribute('aria-current', a.hash === '#' + t));
+  document.getElementById('fl').hidden = t === 'legal';                      // the small Legal link lives in the footer of the other pages
   if (t === 'create' || t === 'legal') { lockUntil = Date.now() + 700; scrollTo(0, 0); }       // a tab always starts at its top
   if (t !== 'animations') return;
   const cat = document.getElementById(h);
