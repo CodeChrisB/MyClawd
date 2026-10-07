@@ -1,10 +1,12 @@
 # MyClawd
 
+**Live site: https://codechrisb.github.io/MyClawd/**
+
 Pixel-art animations of **Clawd**, the Claude Code mascot, for every moment of a Claude Code session.
 Every set has an `enter`, one or more `loop`s and an `exit`, and all of them start and end on the same pose,
 so any animation can follow any other without a jump.
 
-- **Browse and download:** the site (GitHub Pages) shows every set, with a zip per set and one for all of them.
+- **Browse and download:** the [site](https://codechrisb.github.io/MyClawd/) shows every set, with a zip per set and one for all of them.
 - **Make your own:** clone the repo, open Claude Code in it and paste the prompt from the site's *Create your own* tab.
   Claude reads [`clawd.md`](clawd.md), asks what Clawd should be doing and draws the GIFs with Python and Pillow.
 
