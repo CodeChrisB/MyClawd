@@ -7,8 +7,8 @@ Every set has an `enter`, one or more `loop`s and an `exit`, and all of them sta
 so any animation can follow any other without a jump.
 
 <table>
-<tr><td align="center"><img src="sets/thinking/full.gif" width="300"><br><sub>Thinking</sub></td><td align="center"><img src="sets/session-start/full.gif" width="300"><br><sub>Session start</sub></td></tr>
-<tr><td align="center"><img src="sets/mode-auto/full.gif" width="300"><br><sub>Auto mode</sub></td><td align="center"><img src="sets/handoff/full.gif" width="300"><br><sub>Handoff</sub></td></tr>
+<tr><td align="center"><img src="sets/browser/full.gif" width="300"><br><sub>Browser</sub></td><td align="center"><img src="sets/bash/full.gif" width="300"><br><sub>Bash</sub></td></tr>
+<tr><td align="center"><img src="sets/resume/full.gif" width="300"><br><sub>Resume</sub></td><td align="center"><img src="sets/crash/full.gif" width="300"><br><sub>Crash</sub></td></tr>
 </table>
 
 - **Browse and download:** the [site](https://codechrisb.github.io/MyClawd/) shows every set, with a zip per set and one for all of them.

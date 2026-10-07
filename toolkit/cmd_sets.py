@@ -10,11 +10,12 @@ from tool_sets import lock
 
 # ---------------------------------------------------------------- login: key, lock, an avatar appears
 def key(draw, x, y, turn=0):
-    dot(draw, x + 3, y + 3, 3, YELLOW)
-    R(draw, x + 2, y + 2, 2, 2, DARK)
-    R(draw, x + 6, y + 2, 14, 2, YELLOW)
-    R(draw, x + 15, y + 4, 2, 3, YELLOW)
-    R(draw, x + 19, y + 4, 2, 4, YELLOW)
+    """Key pointing left, towards the lock: head on the right, shaft and teeth on the left (x = the tip)."""
+    dot(draw, x + 17, y + 3, 3, YELLOW)
+    R(draw, x + 16, y + 2, 2, 2, DARK)
+    R(draw, x, y + 2, 14, 2, YELLOW)
+    R(draw, x + 1, y + 4, 2, 3, YELLOW)
+    R(draw, x + 5, y + 4, 2, 4, YELLOW)
 
 
 def avatar(draw, cx, cy):
