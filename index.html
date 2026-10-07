@@ -156,7 +156,7 @@ const card = n => `
     <div class="row"><div><div class="name">${n.replace(/-/g, ' ').replace(/api/, 'API')}</div><div class="desc">${DESC[n] || ''}</div></div>
     <a class="dl" href="zips/${n}.zip" download title="Download ${n} (full, enter, exit, all loops)" aria-label="Download ${n}">${svg}</a></div>
   </div>`;
-document.getElementById('count-note').innerHTML = `We already have <strong>${GROUPS.reduce((n, g) => n + g.sets.length, 0)} animation sets</strong> in ${GROUPS.length} categories. Need one that is not there? Make your own below.`;
+document.getElementById('count-note').innerHTML = `We already have <strong>${GROUPS.reduce((n, g) => n + g.sets.length, 0)} animation sets</strong> in ${GROUPS.length} categories, with <strong>${Object.values(PLAY).reduce((n, p) => n + p.loops.length, 0)} loop variations</strong> in total. Need one that is not there? Make your own below.`;
 const slug = t => t.toLowerCase().replace(/[^a-z0-9]+/g, '-');                  // category title -> link, e.g. #build-and-ci
 const wide = matchMedia('(min-width: 721px)').matches;                       // groups start open on a computer, collapsed on a phone
 document.getElementById('grid').innerHTML = GROUPS.map(g => `<details class="grp" id="${slug(g.title)}"${wide ? ' open' : ''}><summary><h2>${g.title}</h2><span class="cnt">${g.sets.length}</span></summary><section>${g.sets.map(card).join('')}</section></details>`).join('');
