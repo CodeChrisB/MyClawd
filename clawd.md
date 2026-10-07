@@ -137,6 +137,8 @@ This lets a player switch from any GIF to any other without a jump. `save_set` c
 | Images, voice, a screenshot, a PDF, a spreadsheet, slides (colour-coded, no logos), keycaps, drag and drop | `media_sets.py` | `paste-image`, `voice-input`, `screenshot`, `pdf`, `excel`, `powerpoint` |
 | Idle scenes with a prop and several variants (no panel) | `idle_sets.py` | `idle-coffee`, `idle-book` |
 
+> The original sets (`idle*`, `writing`, `reading`, `ask`, `agent`, `agents`, `search`, `browser`, `bash`, `git`, `radio`, `dj`, `disco`, `context-*` before the gauge redo) were drawn with an older private script. Only their GIFs are in this repo, so they are not in the catalog above; the files above are the sources you can copy from.
+
 ## Files
 
 | Path | What |

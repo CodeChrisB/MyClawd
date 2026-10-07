@@ -4,6 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MyClawd</title>
+<meta name="description" content="Pixel-art Clawd animations for every moment of a Claude Code session: 100+ seamless sets with enter, loop and exit GIFs. A fan project.">
+<meta property="og:title" content="Clawd it ur way">
+<meta property="og:description" content="Pixel-art Clawd animations for every moment of a Claude Code session. A fan project, free to use.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2012%22%20shape-rendering%3D%22crispEdges%22%3E%3Cpath%20fill%3D%22%23d4845a%22%20d%3D%22M3%200h10v4H3zM0%204h16v3H0zM3%207h10v3H3zM3%2010h2v2H3zM7%2010h2v2H7zM11%2010h2v2h-2z%22/%3E%3Cpath%20fill%3D%22%23000%22%20d%3D%22M5%202h2v2H5zM9%202h2v2H9z%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
@@ -248,10 +253,12 @@ function route() {
 }
 addEventListener('hashchange', route); route();
 const setHash = id => { if (location.hash.slice(1) !== id) history.replaceState(null, '', '#' + id); };
-document.querySelectorAll('details.grp').forEach(d => d.addEventListener('toggle', () => { if (d.open && Date.now() > lockUntil) setHash(d.id); }));
+let lastClick = 0;                                                          // only a visitor's click on a header may write the link:
+document.addEventListener('click', e => { if (e.target.closest('summary')) lastClick = Date.now(); }, true);   // a hash set while the page loads would make the browser scroll there
+document.querySelectorAll('details.grp').forEach(d => d.addEventListener('toggle', () => { if (d.open && Date.now() - lastClick < 600) setHash(d.id); }));
 let spyQueued = false;
 addEventListener('scroll', () => {                                         // the category at the top of the screen goes into the link
-  if (spyQueued || Date.now() < lockUntil || document.getElementById('animations').hidden) return;
+  if (!userMoved || spyQueued || Date.now() < lockUntil || document.getElementById('animations').hidden) return;
   spyQueued = true;
   setTimeout(() => {
     spyQueued = false;
