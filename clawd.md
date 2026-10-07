@@ -1,6 +1,6 @@
 # clawd.md — instructions for Claude
 
-You are in the **MyClawd** repo. The user wants to create their own pixel-art GIF set of **Clawd** (the Claude Code mascot), in the same style as the 60+ sets on the site.
+You are in the **MyClawd** repo. The user wants to create their own pixel-art GIF set of **Clawd** (the Claude Code mascot), in the same style as the sets on the site.
 You draw every frame with Python and Pillow. There is no image model. Read this whole file, then follow the workflow.
 
 ## Workflow
