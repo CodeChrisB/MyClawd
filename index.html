@@ -78,7 +78,9 @@
   .md th { background:var(--bg); }
   .md blockquote { margin:10px 0; padding-left:12px; border-left:3px solid var(--accent); color:var(--muted); }
   .md a { color:var(--accent); }
-  .lede { margin:0 0 20px; color:var(--muted); font-size:16px; }
+  .has { margin:0 0 12px; font-size:15px; font-weight:600; color:var(--muted); }
+  .page h2.big.mk { margin-top:44px; }
+  .lede { margin:0 0 28px; color:var(--muted); font-size:16px; }
   .stats { display:flex; flex-wrap:wrap; gap:12px; }
   .stat { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:10px 18px; min-width:120px; }
   .stat strong { display:block; font-size:24px; line-height:1.2; }
@@ -132,9 +134,10 @@
 <main id="grid"></main>
 </div>
 <div class="page" id="create" hidden><main class="doc">
-  <h2 class="big">Create your own</h2>
-  <p class="lede">Describe a scene, answer a few questions, and Claude draws it for you.</p>
+  <p class="has">MyClawd already has&hellip;</p>
   <div id="count-note"></div>
+  <h2 class="big mk">Create your own</h2>
+  <p class="lede">Need one that is not there? Describe a scene, answer a few questions, and Claude draws it for you.</p>
   <ol class="steps">
     <li><strong>Clone the repo</strong>
       <div class="cb"><div class="cbtop"><span>terminal</span><button class="copybtn" type="button">Copy</button></div><pre><code><span class="ln">git clone https://github.com/CodeChrisB/MyClawd.git</span><span class="ln">cd MyClawd</span></code></pre></div></li>
@@ -171,7 +174,7 @@ const card = n => `
 document.getElementById('count-note').innerHTML = (() => {                  // totals are counted from the same data the page uses
   const sets = GROUPS.reduce((n, g) => n + g.sets.length, 0), loops = Object.values(PLAY).reduce((n, p) => n + p.loops.length, 0);
   const stat = (n, label) => `<div class="stat"><strong>${n}</strong><span>${label}</span></div>`;
-  return `<div class="stats">${stat(sets, 'animation sets')}${stat(loops, 'loops')}${stat(sets * 3 + loops, 'GIFs in total')}</div><p class="stat-note">In ${GROUPS.length} categories. Need one that is not there? Make your own.</p>`;
+  return `<div class="stats">${stat(sets, `animation sets (${GROUPS.length} categories)`)}${stat(loops, 'loops')}${stat(sets * 3 + loops, 'GIFs in total')}</div>`;
 })();
 const slug = t => t.toLowerCase().replace(/[^a-z0-9]+/g, '-');                  // category title -> link, e.g. #build-and-ci
 const wide = matchMedia('(min-width: 721px)').matches;                       // groups start open on a computer, collapsed on a phone
