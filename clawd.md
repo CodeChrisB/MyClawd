@@ -129,6 +129,7 @@ This lets a player switch from any GIF to any other without a jump. `save_set` c
 | Signal loss, request floods, glitches, a page fetch | `net_sets.py` | `offline`, `overloaded`, `crash`, `web-fetch` |
 | A key in a lock, a book with a bookmark, a wipe | `cmd_sets.py` | `login`, `resume`, `clear` |
 | Failure and retry, a todo list, goodbye, waiting agents, a timeline, a skill cartridge, a clock, linked windows | `event_sets.py` | `tool-failure`, `todo-list`, `session-end`, `teammate-idle`, `rewind`, `skills`, `scheduled-task`, `ide-connected` |
+| A gauge with a threshold marker, a bell, an automatic compaction | `context_auto.py` | `auto-compact` |
 | Ask-before-acting dialogs, a sandbox wall, a six-zone dial, an adaptive needle | `more_modes.py` | `mode-default`, `mode-sandbox`, `effort-ultrathink`, `effort-adaptive` |
 | Small agents: a portal, walking in with a report, results merging | `more_agents.py` | `agent-spawn`, `agent-report`, `agent-merge` |
 | A video player with key frames, three windows with focus and alt-tab | `more_media.py` | `video`, `multitasking` |
