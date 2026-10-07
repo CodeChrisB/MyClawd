@@ -5,7 +5,7 @@ Every set has an `enter`, one or more `loop`s and an `exit`, and all of them sta
 so any animation can follow any other without a jump.
 
 - **Browse and download:** the site (GitHub Pages) shows every set, with a zip per set and one for all of them.
-- **Make your own:** clone the repo, open Claude Code in it and paste the prompt from the site's *Clawd ur way* tab.
+- **Make your own:** clone the repo, open Claude Code in it and paste the prompt from the site's *Clawd it ur way* tab.
   Claude reads [`clawd.md`](clawd.md), asks what Clawd should be doing and draws the GIFs with Python and Pillow.
 
 ```
