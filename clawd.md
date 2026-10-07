@@ -129,6 +129,8 @@ This lets a player switch from any GIF to any other without a jump. `save_set` c
 | Signal loss, request floods, glitches, a page fetch | `net_sets.py` | `offline`, `overloaded`, `crash`, `web-fetch` |
 | A key in a lock, a book with a bookmark, a wipe | `cmd_sets.py` | `login`, `resume`, `clear` |
 | Failure and retry, a todo list, goodbye, waiting agents, a timeline, a skill cartridge, a clock, linked windows | `event_sets.py` | `tool-failure`, `todo-list`, `session-end`, `teammate-idle`, `rewind`, `skills`, `scheduled-task`, `ide-connected` |
+| CI stages, a build machine, stacked layers, docs, a tutorial, a learning bulb | `build_sets.py` | `ci-pipeline`, `build`, `container`, `docs-read`, `tutorial`, `learned` |
+| Images, voice, a screenshot, a PDF, a spreadsheet, slides (colour-coded, no logos), keycaps, drag and drop | `media_sets.py` | `paste-image`, `voice-input`, `screenshot`, `pdf`, `excel`, `powerpoint` |
 | Idle scenes with a prop and several variants (no panel) | `idle_sets.py` | `idle-coffee`, `idle-book` |
 
 ## Files
