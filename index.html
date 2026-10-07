@@ -51,6 +51,24 @@
   .box h3 { margin:16px 0 0; font-size:18px; text-transform:capitalize; }
   .x { position:absolute; top:8px; right:8px; width:36px; height:36px; border:0; border-radius:8px; background:none; color:var(--muted); font-size:24px; line-height:1; cursor:pointer; }
   .x:hover, .x:focus-visible { background:var(--line); color:var(--ink); outline:none; }
+  .mdbox { width:min(94vw,880px); padding:20px 0 0; }
+  .mdbox .x { top:12px; right:12px; }
+  .mdhead { display:flex; align-items:baseline; gap:12px; padding:0 64px 12px 24px; border-bottom:1px solid var(--line); }
+  .mdhead strong { font:600 15px ui-monospace,Consolas,monospace; }
+  .mdhead a { color:var(--accent); font-size:13px; }
+  .md { max-height:calc(88vh - 80px); overflow:auto; padding:8px 24px 28px; font-size:15px; line-height:1.6; }
+  .md h1 { font-size:22px; margin:18px 0 8px; }
+  .md h2 { font-size:18px; margin:28px 0 8px; padding-bottom:6px; border-bottom:1px solid var(--line); }
+  .md h3 { font-size:15px; margin:20px 0 6px; }
+  .md p, .md li { margin:6px 0; }
+  .md code { font:13px ui-monospace,Consolas,monospace; background:var(--line); padding:1px 5px; border-radius:4px; }
+  .md pre { background:#1f1e1d; color:#f0eee6; padding:12px 14px; border-radius:8px; overflow:auto; }
+  .md pre code { background:none; padding:0; color:inherit; }
+  .md table { border-collapse:collapse; width:100%; font-size:13px; margin:12px 0; display:block; overflow:auto; }
+  .md th, .md td { border:1px solid var(--line); padding:6px 10px; text-align:left; vertical-align:top; }
+  .md th { background:var(--bg); }
+  .md blockquote { margin:10px 0; padding-left:12px; border-left:3px solid var(--accent); color:var(--muted); }
+  .md a { color:var(--accent); }
   .doc { max-width:760px; }
   a.mdlink { color:var(--accent); font-weight:600; text-decoration:underline; text-underline-offset:3px; }
   a.mdlink code { color:inherit; }
@@ -103,7 +121,12 @@
 </main></div>
 <dialog id="dlg"><div class="box"><button class="x" aria-label="Close">&times;</button>
   <div class="stage"><img id="big" alt=""></div><h3 id="bigname"></h3><div class="desc" id="bigdesc"></div></div></dialog>
+<dialog id="mddlg"><div class="box mdbox"><button class="x" aria-label="Close">&times;</button>
+  <div class="mdhead"><strong>clawd.md</strong><a href="https://github.com/CodeChrisB/MyClawd/blob/main/clawd.md" target="_blank" rel="noopener">open on GitHub</a></div>
+  <article class="md" id="mdbody">Loading...</article></div></dialog>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
 <script src="sets.js"></script>
+<script src="clawd-md.js"></script>
 <script>
 const svg = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>';
 const card = n => `
@@ -146,6 +169,18 @@ document.querySelectorAll('.copybtn').forEach(b => b.addEventListener('click', a
   catch { getSelection().selectAllChildren(code); b.textContent = 'Press Ctrl+C'; }
   setTimeout(() => b.textContent = 'Copy', 1500);
 }));
+
+const mddlg = document.getElementById('mddlg');
+document.querySelector('a.mdlink').addEventListener('click', e => {
+  e.preventDefault();                                                       // still a plain GitHub link if the script cannot run
+  const body = document.getElementById('mdbody');
+  if (typeof CLAWD_MD === 'undefined') { window.open(e.currentTarget.href, '_blank', 'noopener'); return; }
+  if (typeof marked !== 'undefined') body.innerHTML = marked.parse(CLAWD_MD);   // inlined text: no fetch, works from file:// too
+  else body.innerHTML = '<pre></pre>', body.firstChild.textContent = CLAWD_MD;  // renderer (CDN) not reachable: show the plain text
+  mddlg.showModal();
+  body.scrollTop = 0;
+});
+mddlg.addEventListener('click', e => { if (e.target === mddlg || e.target.closest('.x')) mddlg.close(); });
 
 const dlg = document.getElementById('dlg');
 document.getElementById('grid').addEventListener('click', e => {

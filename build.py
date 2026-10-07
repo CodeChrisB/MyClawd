@@ -79,4 +79,5 @@ groups = [{'title': t, 'sets': [n for n in g if n in names]} for t, g in GROUPS.
 rest = [n for n in names if not any(n in g for g in GROUPS.values())]
 if rest: groups.append({'title': 'Other', 'sets': rest})
 (HERE / 'sets.js').write_text('const DESC = ' + json.dumps(DESC) + ';' + chr(10) + 'const PLAY = ' + json.dumps(PLAY) + ';' + chr(10) + 'const GROUPS = ' + json.dumps([g for g in groups if g['sets']]) + ';' + chr(10))  # .js, not .json: fetch() is blocked on file://
+(HERE / 'clawd-md.js').write_text('const CLAWD_MD = ' + json.dumps((HERE / 'clawd.md').read_text(encoding='utf-8')) + ';' + chr(10), encoding='utf-8')  # inlined so the dialog works from file:// too
 print(len(names), 'sets')
