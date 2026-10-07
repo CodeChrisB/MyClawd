@@ -23,6 +23,7 @@ GROUPS = {  # section title -> sets, in display order; anything unlisted lands i
     'Problems': ['tool-failure', 'offline', 'overloaded', 'stop-failure', 'crash'],
     'Idle': ['idle', 'idle-coffee', 'idle-book', 'idle-chat', 'idle-doze', 'idle-heart', 'idle-look', 'idle-swag', 'idle-walk', 'idle-yawn'],
     'Idle with music': ['radio', 'dj', 'disco'],
+    'Misc': ['legal'],
 }
 DESC = {  # one line per set, shown under the name
     'thinking': 'Claude is thinking', 'writing': 'Claude is writing or editing code', 'reading': 'Claude is reading files',
@@ -44,7 +45,8 @@ DESC = {  # one line per set, shown under the name
     'interrupt': 'You interrupted Claude with Esc', 'background-task': 'Claude works while a background task runs',
     'effort-low': 'Low effort: calm and quick', 'effort-medium': 'Medium effort: steady work',
     'effort-high': 'High effort: focused', 'effort-xhigh': 'Extra high effort: working hard',
-    'effort-max': 'Max effort: everything Claude has', 'auto-compact': 'Auto-compact: the bell rings at 90% and the context compacts itself',
+    'effort-max': 'Max effort: everything Claude has', 'legal': 'Legal: free to use, no data, not affiliated, just for fun',
+    'auto-compact': 'Auto-compact: the bell rings at 90% and the context compacts itself',
     'mode-default': 'Default mode: Claude asks before each step', 'mode-sandbox': 'Sandbox mode: free inside, walls outside',
     'effort-ultrathink': 'Ultrathink: effort goes past max', 'effort-adaptive': 'Adaptive effort: the dial follows the task',
     'agent-spawn': 'Claude spawns a sub-agent', 'agent-report': 'A sub-agent reports back', 'agent-merge': 'Results from several agents are merged',
