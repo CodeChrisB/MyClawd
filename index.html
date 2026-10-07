@@ -52,6 +52,8 @@
   .x { position:absolute; top:8px; right:8px; width:36px; height:36px; border:0; border-radius:8px; background:none; color:var(--muted); font-size:24px; line-height:1; cursor:pointer; }
   .x:hover, .x:focus-visible { background:var(--line); color:var(--ink); outline:none; }
   .doc { max-width:760px; }
+  a.mdlink { color:var(--accent); font-weight:600; text-decoration:underline; text-underline-offset:3px; }
+  a.mdlink code { color:inherit; }
   .doc .sub { margin-bottom:24px; }
   .steps { padding-left:20px; margin:0; display:grid; gap:20px; }
   .steps li::marker { color:var(--accent); font-weight:700; }
@@ -87,7 +89,7 @@
 </div>
 <div class="page" id="create" hidden><main class="doc">
   <h2 class="big">Create your own</h2>
-  <p class="sub">Make your own Clawd GIF set with Claude Code. Claude draws every frame with Python code, so you just need Python installed. Your set follows the same seam rules, so it switches seamlessly with all the others.</p>
+  <p class="sub">Everything Claude needs to draw your GIFs is in <a class="mdlink" href="https://github.com/CodeChrisB/MyClawd/blob/main/clawd.md" target="_blank" rel="noopener"><code>clawd.md</code></a>: the format, the seam rules and worked examples. Make your own Clawd GIF set with Claude Code. Claude draws every frame with Python code, so you just need Python installed. Your set follows the same seam rules, so it switches seamlessly with all the others.</p>
   <ol class="steps">
     <li><strong>Clone the repo</strong>
       <div class="cb"><div class="cbtop"><span>terminal</span><button class="copybtn" type="button">Copy</button></div><pre><code><span class="ln">git clone https://github.com/CodeChrisB/MyClawd.git</span><span class="ln">cd MyClawd</span></code></pre></div></li>
