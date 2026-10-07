@@ -10,6 +10,7 @@ from props import *
 SEAM = (0, 1)
 MUG, COFFEE, HANDLE = (236, 236, 242), (96, 58, 34), (200, 200, 210)
 STEAM = (205, 210, 222)
+FRONT = (190, 112, 74)                                                        # arms in front of the body are a little darker
 PAGE, PAGE_D, SPINE, COVER = (240, 236, 224), (205, 200, 186), (130, 84, 52), (160, 108, 64)
 
 
@@ -130,12 +131,18 @@ def book_frame(off=0, flip=None, scan=0, look=SEAM, blink=False, lid=0.0, bob=0,
     if smile:
         draw_smile(draw, OX + 4 * G, OY + 2 * G + 1 + bob)
     bx, by = 20, 24 + bob + off + tilt
+    if off < 14:                                                             # the arms come down and hold the book from the sides
+        sh = 20 + bob                                                        # shoulder row
+        R(draw, 4, sh, 12, 12, TRANS)                                        # remove the raised side arms
+        R(draw, 64, sh, 12, 12, TRANS)
+        R(draw, 10, sh, 6, by + 10 - sh, CORAL)                              # upper arms along the body
+        R(draw, 64, sh, 6, by + 10 - sh, CORAL)
     book(draw, bx, by, flip, scan)
-    if off == 0:                                                             # both hands hold the book
-        R(draw, bx - 5, by + 6, 6, 7, CORAL)
-        R(draw, bx + 39, by + 6, 6, 7, CORAL)
-        R(draw, bx - 3, by + 11, 4, 2, CORAL)
-        R(draw, bx + 39, by + 11, 4, 2, CORAL)
+    if off < 14:                                                             # forearms and hands are in front of the body: a bit darker,
+        R(draw, 10, by + 6, 12, 5, FRONT)                                    # and they overlap the edge of the book
+        R(draw, 58, by + 6, 12, 5, FRONT)
+        R(draw, 17, by + 3, 6, 9, FRONT)
+        R(draw, 57, by + 3, 6, 9, FRONT)
     if zf is not None:
         zzz(draw, zf, 66, 22, 3)
     return img
