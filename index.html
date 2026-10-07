@@ -36,7 +36,7 @@
   main { max-width:1100px; margin:0 auto; }
   main.doc { margin:0 auto 0 max(0px, calc((100% - 1100px) / 2)); }
   details.grp { margin:0 0 4px; }
-  details.grp > summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:10px; margin:20px 0 12px; user-select:none; }
+  details.grp > summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:10px; margin:20px 0 14px; padding-bottom:8px; border-bottom:1px solid var(--line); user-select:none; }
   details.grp > summary::-webkit-details-marker { display:none; }
   details.grp > summary::before { content:''; width:0; height:0; border-left:6px solid var(--muted); border-top:5px solid transparent; border-bottom:5px solid transparent; transition:transform .15s; }
   details.grp[open] > summary::before { transform:rotate(90deg); }
