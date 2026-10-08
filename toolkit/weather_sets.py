@@ -40,14 +40,19 @@ def sun(draw, cx, cy, r, t, n, dim=0.0, rays=True):
 
 
 def shades(draw, bob=0, glint=None):
+    """Sunglasses whose lenses are joined by a bridge and whose temples run to the sides of the head."""
     oy = OY + G + bob
-    for ex in (OX + G - 2, OX + 6 * G - 2):
-        R(draw, ex, oy - 1, 10, 7, (14, 14, 20))
-    R(draw, OX + 2 * G + 8, oy, 2 * G + 10, 2, (14, 14, 20))
-    R(draw, OX - 1, oy, 3, 2, (14, 14, 20))
-    R(draw, OX + 8 * G - 2, oy, 3, 2, (14, 14, 20))
+    left, right = OX + G - 2, OX + 6 * G - 2                  # lens x, 10 px wide each
+    ink = (14, 14, 20)
+    R(draw, left, oy - 1, 10, 7, ink)
+    R(draw, right, oy - 1, 10, 7, ink)
+    R(draw, left + 10, oy, right - left - 10, 2, ink)           # bridge, touches both lenses
+    R(draw, OX, oy, left - OX, 2, ink)                          # temples
+    R(draw, right + 10, oy, OX + 8 * G - right - 10, 2, ink)
+    R(draw, left + 1, oy, 3, 1, (70, 74, 96))
+    R(draw, right + 1, oy, 3, 1, (70, 74, 96))
     if glint is not None:
-        R(draw, OX + G + glint, oy + 1, 2, 1, WHITE)
+        R(draw, left + 1 + glint % 6, oy + 2, 2, 1, WHITE)
 
 
 def scarf(draw, bob=0):
