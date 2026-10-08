@@ -24,8 +24,10 @@ GROUPS = {  # section title -> sets, in display order; anything unlisted lands i
     'Idle': ['idle', 'idle-coffee', 'idle-book', 'idle-chat', 'idle-doze', 'idle-heart', 'idle-look', 'idle-swag', 'idle-walk', 'idle-yawn',
              'idle-fall', 'idle-juggle'],
     'Idle with music': ['radio', 'dj', 'disco'],
-    'Dev work': ['debug', 'merge-conflict', 'lint', 'security', 'benchmark', 'api-request'],
-    'Misc': ['legal', 'celebrate', 'night-owl', 'new-mail', 'hello'],
+    'Speech': ['right', 'lets-look', 'tests-pass', 'sorry', 'great-question', 'proceed', 'thinking-aloud'],
+    'Dev work': ['debug', 'merge-conflict', 'lint', 'security', 'benchmark', 'api-request', 'friday-deploy'],
+    'Memes': ['this-is-fine'],
+    'Misc': ['legal', 'celebrate', 'night-owl', 'new-mail', 'hello', 'overworked'],
 }
 DESC = {  # one line per set, shown under the name
     'thinking': 'Claude is thinking', 'writing': 'Claude is writing or editing code', 'reading': 'Claude is reading files',
@@ -72,7 +74,11 @@ DESC = {  # one line per set, shown under the name
     'debug': 'Claude hunts a bug or steps through code', 'merge-conflict': 'Claude resolves a merge conflict',
     'lint': 'Claude formats the file and clears the warnings', 'security': 'Claude scans for leaked secrets and audits packages',
     'benchmark': 'Claude measures speed and reads a flame graph', 'api-request': 'Claude calls an API: 200, 404 or 500',
-    'celebrate': 'Party time: popper, balloons, fireworks', 'night-owl': 'Working late at night',
+    'celebrate': 'Two Clawds and a cake: blow out the candles, confetti, dance',
+    'right': "Claude says: You're absolutely right!", 'lets-look': 'Claude says: Let me take a look', 'tests-pass': 'Claude says: All tests pass!',
+    'sorry': 'Claude says: I apologize for the confusion', 'great-question': 'Claude says: Great question!', 'proceed': 'Claude says: Should I proceed?',
+    'thinking-aloud': 'Claude says: Hmm, let me think', 'overworked': 'Too many tickets, too much coffee',
+    'friday-deploy': 'Deploying on Friday the 13th', 'this-is-fine': 'This is fine. Clawd sips coffee while the room burns', 'night-owl': 'Working late at night',
     'new-mail': 'A new message arrives', 'hello': 'Clawd says hello',
     'idle-fall': 'Idle, falling through the clouds', 'idle-juggle': 'Idle, juggling three balls',
     'radio': 'Idle, listening to the radio', 'dj': 'Idle, DJing', 'disco': 'Idle, dancing at the disco',
@@ -84,7 +90,7 @@ GROUP_TAGS = {
     'Git': ['git', 'terminal', 'work'], 'Tools': ['tool', 'work'], 'Build and CI': ['build', 'terminal', 'work'],
     'Docs and learning': ['docs', 'learning'], 'Multimodal': ['media', 'input'], 'Context': ['context', 'status'],
     'Limits': ['limit', 'status'], 'Session': ['session'], 'Problems': ['error', 'problem'], 'Idle': ['idle', 'fun'],
-    'Idle with music': ['idle', 'music', 'fun'], 'Dev work': ['dev', 'work', 'program'], 'Misc': ['fun'],
+    'Idle with music': ['idle', 'music', 'fun'], 'Speech': ['speech', 'talk', 'fun'], 'Memes': ['meme', 'fun'], 'Dev work': ['dev', 'work', 'program'], 'Misc': ['fun'],
 }
 SET_TAGS = {
     'bash': ['terminal', 'shell', 'command'], 'browser': ['program', 'web', 'chrome'], 'search': ['web', 'internet'],
@@ -100,7 +106,8 @@ SET_TAGS = {
     'code-review': ['code', 'diff'], 'handoff': ['session'], 'done': ['session', 'success'], 'update-available': ['version'],
     'radio': ['music'], 'dj': ['music'], 'disco': ['music'], 'celebrate': ['party', 'success'], 'night-owl': ['night', 'time'],
     'new-mail': ['message', 'notification'], 'hello': ['greeting'], 'scheduled-task': ['time', 'cron'], 'legal': ['info'],
-    'idle-fall': ['animation'], 'idle-juggle': ['animation'],
+    'overworked': ['work', 'stress', 'coffee'], 'friday-deploy': ['deploy', 'time', 'risk', 'terminal'], 'this-is-fine': ['fire', 'coffee'],
+    'celebrate': ['party', 'success', 'friend'], 'idle-fall': ['animation'], 'idle-juggle': ['animation'],
 }
 RENAME = {'gitfind': 'git', 'context': 'context-full'}  # source folder -> published name (sets/, zips/, folder inside the zip, title)
 FILES = ('full', 'enter', 'exit')  # plus every loop*.gif of the set

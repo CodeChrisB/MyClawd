@@ -333,7 +333,6 @@ def hello_bow():
 
 
 if __name__ == "__main__":
-    finish("celebrate", party_frame, [party_pop, party_balloons, party_fireworks])
     finish("night-owl", night_frame, [night_stars, night_clock])
     finish("new-mail", mail_frame, [mail_ding, mail_open, mail_spam])
     finish("hello", hello_frame, [hello_wave, hello_bow])
