@@ -59,7 +59,7 @@
   .name { font-size:15px; font-weight:600; text-transform:capitalize; }
   dialog { border:0; padding:0; background:transparent; max-width:none; max-height:none; overflow:visible; }
   dialog::backdrop { background:rgba(0,0,0,.4); }
-  .box { position:relative; background:var(--card); color:var(--ink); border-radius:16px; padding:56px 24px 24px; width:min(92vw,760px); }
+  .box { max-height:calc(100vh - 24px); overflow:auto; position:relative; background:var(--card); color:var(--ink); border-radius:16px; padding:56px 24px 24px; width:min(92vw,760px); }
   .box .stage { cursor:default; padding:16px; }
   .box img { width:100%; image-rendering:pixelated; display:block; }
   .box h3 { margin:16px 0 0; font-size:18px; text-transform:capitalize; }
@@ -161,13 +161,14 @@
   .dtab:hover { color:var(--ink); }
   .dtab[aria-selected=true] { color:var(--ink); border-bottom-color:var(--accent); }
   #pane-general[hidden], #pane-variants[hidden] { display:none; }
-  .vgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px; max-height:min(58vh,520px); overflow:auto; padding:2px; }
+  .vgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px; padding:2px; }
   .vt { border:1px solid var(--line); border-radius:10px; padding:8px; }
   .vt .stage { padding:6px; cursor:default; }
   .vt img { width:100%; aspect-ratio:3/1; image-rendering:pixelated; display:block; }
   .vl { margin-top:6px; font:600 13px system-ui; display:flex; justify-content:space-between; color:var(--ink); }
   .vl span { color:var(--muted); font-weight:500; }
   .vhint { margin:0 0 10px; }
+  .box.wide { width:min(96vw,1000px); }   /* sets with more than 12 variants (browser) get a wider and taller dialog */
 </style>
 </head>
 <body>
@@ -434,6 +435,7 @@ function showPane(name) {
   document.getElementById('pane-general').hidden = name !== 'general';
   document.getElementById('pane-variants').hidden = name !== 'variants';
   playToken++;
+  document.querySelector('#dlg .box').classList.toggle('wide', name === 'variants' && PLAY[dlgSet].loops.length > 12);
   if (name === 'variants') startVariants(dlgSet);
 }
 function startVariants(n) {
