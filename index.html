@@ -154,6 +154,8 @@
   .foot2 .tags { flex:1; }
   .var { display:inline-flex; align-items:center; gap:4px; flex:none; color:var(--muted); font:600 12px system-ui; white-space:nowrap; }
   .var svg { width:13px; height:13px; }
+  button.var { border:0; background:none; padding:2px 4px; border-radius:6px; cursor:pointer; }
+  button.var:hover, button.var:focus-visible { color:var(--accent); background:var(--line); outline:none; }
   .bigmeta { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-top:10px; }
   .bigmeta .tags { flex:1; }
   .dtabs { position:absolute; left:16px; top:10px; display:flex; gap:2px; }
@@ -222,7 +224,7 @@
   <div class="dtabs" role="tablist"><button class="dtab" role="tab" data-pane="general" aria-selected="true">General</button><button class="dtab" role="tab" data-pane="variants" aria-selected="false">Variants</button></div>
   <div id="pane-general">
   <div class="stage"><img id="big" alt=""></div><h3 id="bigname"></h3><div class="desc" id="bigdesc"></div><div class="added" id="bigadded"></div>
-  <div class="bigmeta"><div class="tags" id="bigtags"></div><span class="var" id="bigvar"></span></div>
+  <div class="bigmeta"><div class="tags" id="bigtags"></div><button class="var" id="bigvar" type="button" title="Show the variants"></button></div>
   <div class="dact">
     <a class="btn" id="bigdl" download><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>Download</a>
     <button class="btn icon" id="bigcopy" type="button" title="Copy link to the GIF" aria-label="Copy link to the GIF"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button>
@@ -247,7 +249,7 @@ const card = n => `
     <div class="row"><div><div class="name">${n.replace(/-/g, ' ').replace(/api/, 'API')}</div><div class="desc">${DESC[n] || ''}</div><div class="added">Added: ${ADDED[n] || ''}</div></div>
     <a class="dl" href="zips/${n}.zip" download title="Download ${n} (full, enter, exit, all loops)" aria-label="Download ${n}">${svg}</a></div>
     <div class="foot2"><div class="tags">${(TAGS[n] || []).map(t => `<button class="tag" data-tag="${t}">${t}</button>`).join('')}</div>
-      <span class="var" title="${PLAY[n].loops.length} loop variant${PLAY[n].loops.length === 1 ? '' : 's'}">${loopIcon}${PLAY[n].loops.length}</span></div>
+      <button class="var" data-set="${n}" title="Show the ${PLAY[n].loops.length} loop variant${PLAY[n].loops.length === 1 ? '' : 's'}">${loopIcon}${PLAY[n].loops.length}</button></div>
   </div>`;
 document.getElementById('count-note').innerHTML = (() => {                  // totals are counted from the same data the page uses
   const sets = GROUPS.reduce((n, g) => n + g.sets.length, 0), loops = Object.values(PLAY).reduce((n, p) => n + p.loops.length, 0);
@@ -400,8 +402,9 @@ mddlg.addEventListener('click', e => { if (e.target === mddlg || e.target.closes
 
 const dlg = document.getElementById('dlg');
 document.getElementById('grid').addEventListener('click', e => {
-  const b = e.target.closest('.stage'); if (!b) return;
-  const n = b.dataset.set;
+  const v = e.target.closest('button.var'), b = e.target.closest('.stage');
+  if (!v && !b) return;
+  const n = (v || b).dataset.set;
   document.getElementById('big').src = `sets/${n}/full.gif`;
   document.getElementById('bigname').textContent = n.replace(/-/g, ' ').replace(/api/, 'API');
   document.getElementById('bigdesc').textContent = DESC[n] || '';
@@ -412,7 +415,7 @@ document.getElementById('grid').addEventListener('click', e => {
   document.getElementById('bigdl').href = `zips/${n}.zip`;
   document.getElementById('bigdl').title = `Download ${n} (full, enter, exit, all loops)`;
   document.getElementById('bigcopy').dataset.set = n;
-  dlgSet = n; showPane('general');
+  dlgSet = n; showPane(v ? 'variants' : 'general');
   dlg.showModal();
 });
 let toastTimer;
@@ -458,6 +461,7 @@ function startVariants(n) {
     }
   });
 }
+document.getElementById('bigvar').addEventListener('click', () => showPane('variants'));
 document.querySelector('.dtabs').addEventListener('click', e => { const b = e.target.closest('.dtab'); if (b) showPane(b.dataset.pane); });
 dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.x')) dlg.close(); });
 dlg.addEventListener('close', () => { playToken++; });  // dialog has no padding, so a hit on it itself is the backdrop; Esc is built in
