@@ -21,7 +21,8 @@ GROUPS = {  # section title -> sets, in display order; anything unlisted lands i
     'Session': ['session-start', 'login', 'prompt', 'cwd', 'resume', 'rewind', 'clear', 'done', 'interrupt', 'update-available',
                 'session-end'],
     'Problems': ['tool-failure', 'offline', 'overloaded', 'stop-failure', 'crash'],
-    'Idle': ['idle', 'idle-coffee', 'idle-book', 'idle-chat', 'idle-doze', 'idle-heart', 'idle-look', 'idle-swag', 'idle-walk', 'idle-yawn'],
+    'Idle': ['idle', 'idle-coffee', 'idle-book', 'idle-chat', 'idle-doze', 'idle-heart', 'idle-look', 'idle-swag', 'idle-walk', 'idle-yawn',
+             'idle-fall', 'idle-juggle'],
     'Idle with music': ['radio', 'dj', 'disco'],
     'Misc': ['legal'],
 }
@@ -67,6 +68,7 @@ DESC = {  # one line per set, shown under the name
     'idle': 'Claude is waiting for you', 'idle-chat': 'Idle, chatting with a friend', 'idle-doze': 'Idle, dozing off',
     'idle-heart': 'Idle, feeling the love', 'idle-look': 'Idle, looking around', 'idle-swag': 'Idle, with swag',
     'idle-walk': 'Idle, taking a walk', 'idle-yawn': 'Idle, yawning',
+    'idle-fall': 'Idle, falling through the clouds', 'idle-juggle': 'Idle, juggling three balls',
     'radio': 'Idle, listening to the radio', 'dj': 'Idle, DJing', 'disco': 'Idle, dancing at the disco',
 }
 RENAME = {'gitfind': 'git', 'context': 'context-full'}  # source folder -> published name (sets/, zips/, folder inside the zip, title)
