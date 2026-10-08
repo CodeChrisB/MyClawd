@@ -404,4 +404,3 @@ def fine_plank():
 if __name__ == "__main__":
     finish("overworked", ow_frame, [ow_pile, ow_coffee])
     finish("friday-deploy", fd_frame, [fd_yolo, fd_monday])
-    save_set("this-is-fine", fine_enter, [fine_sip, fine_plank], fine_leave)

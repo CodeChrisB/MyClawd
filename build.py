@@ -24,6 +24,7 @@ GROUPS = {  # section title -> sets, in display order; anything unlisted lands i
     'Idle': ['idle', 'idle-coffee', 'idle-book', 'idle-chat', 'idle-doze', 'idle-heart', 'idle-look', 'idle-swag', 'idle-walk', 'idle-yawn',
              'idle-fall', 'idle-juggle'],
     'Idle with music': ['radio', 'dj', 'disco'],
+    'Weather': ['sunny', 'partly-cloudy', 'cloudy', 'rain', 'snow', 'thunder', 'hurricane'],
     'Speech': ['right', 'lets-look', 'tests-pass', 'sorry', 'great-question', 'proceed', 'thinking-aloud'],
     'Dev work': ['debug', 'merge-conflict', 'lint', 'security', 'benchmark', 'api-request', 'friday-deploy'],
     'Memes': ['this-is-fine'],
@@ -78,7 +79,10 @@ DESC = {  # one line per set, shown under the name
     'right': "Claude says: You're absolutely right!", 'lets-look': 'Claude says: Let me take a look', 'tests-pass': 'Claude says: All tests pass!',
     'sorry': 'Claude says: I apologize for the confusion', 'great-question': 'Claude says: Great question!', 'proceed': 'Claude says: Should I proceed?',
     'thinking-aloud': 'Claude says: Hmm, let me think', 'overworked': 'Too many tickets, too much coffee',
-    'friday-deploy': 'Deploying on Friday the 13th', 'this-is-fine': 'This is fine. Clawd sips coffee while the room burns', 'night-owl': 'Working late at night',
+    'friday-deploy': 'Deploying on Friday the 13th',
+    'sunny': 'Sunny: shades on, rays turning', 'partly-cloudy': 'Partly cloudy: clouds drift across the sun', 'cloudy': 'Cloudy and grey',
+    'rain': 'Rain: umbrella up, puddles', 'snow': 'Snow: scarf on, a snowman appears', 'thunder': 'Thunder: flash, bang, jump',
+    'hurricane': 'Hurricane: wind, debris and a spinning storm', 'this-is-fine': 'This is fine. Clawd sips coffee while the room burns', 'night-owl': 'Working late at night',
     'new-mail': 'A new message arrives', 'hello': 'Clawd says hello',
     'idle-fall': 'Idle, falling through the clouds', 'idle-juggle': 'Idle, juggling three balls',
     'radio': 'Idle, listening to the radio', 'dj': 'Idle, DJing', 'disco': 'Idle, dancing at the disco',
@@ -90,7 +94,7 @@ GROUP_TAGS = {
     'Git': ['git', 'terminal', 'work'], 'Tools': ['tool', 'work'], 'Build and CI': ['build', 'terminal', 'work'],
     'Docs and learning': ['docs', 'learning'], 'Multimodal': ['media', 'input'], 'Context': ['context', 'status'],
     'Limits': ['limit', 'status'], 'Session': ['session'], 'Problems': ['error', 'problem'], 'Idle': ['idle', 'fun'],
-    'Idle with music': ['idle', 'music', 'fun'], 'Speech': ['speech', 'talk', 'fun'], 'Memes': ['meme', 'fun'], 'Dev work': ['dev', 'work', 'program'], 'Misc': ['fun'],
+    'Idle with music': ['idle', 'music', 'fun'], 'Speech': ['speech', 'talk', 'fun'], 'Weather': ['weather', 'sky', 'nature'], 'Memes': ['meme', 'fun'], 'Dev work': ['dev', 'work', 'program'], 'Misc': ['fun'],
 }
 SET_TAGS = {
     'bash': ['terminal', 'shell', 'command'], 'browser': ['program', 'web', 'chrome'], 'search': ['web', 'internet'],
@@ -107,6 +111,8 @@ SET_TAGS = {
     'radio': ['music'], 'dj': ['music'], 'disco': ['music'], 'celebrate': ['party', 'success'], 'night-owl': ['night', 'time'],
     'new-mail': ['message', 'notification'], 'hello': ['greeting'], 'scheduled-task': ['time', 'cron'], 'legal': ['info'],
     'overworked': ['work', 'stress', 'coffee'], 'friday-deploy': ['deploy', 'time', 'risk', 'terminal'], 'this-is-fine': ['fire', 'coffee'],
+    'sunny': ['sun', 'warm'], 'partly-cloudy': ['clouds', 'sun'], 'cloudy': ['clouds', 'grey'], 'rain': ['rain', 'wet', 'umbrella'],
+    'snow': ['snow', 'cold', 'winter'], 'thunder': ['storm', 'lightning'], 'hurricane': ['storm', 'wind'],
     'celebrate': ['party', 'success', 'friend'], 'idle-fall': ['animation'], 'idle-juggle': ['animation'],
 }
 RENAME = {'gitfind': 'git', 'context': 'context-full'}  # source folder -> published name (sets/, zips/, folder inside the zip, title)
