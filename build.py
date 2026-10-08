@@ -146,3 +146,6 @@ if rest: groups.append({'title': 'Other', 'sets': rest})
 (HERE / 'sets.js').write_text('const DESC = ' + json.dumps(DESC) + ';' + chr(10) + 'const PLAY = ' + json.dumps(PLAY) + ';' + chr(10) + 'const ADDED = ' + json.dumps(ADDED) + ';' + chr(10) + 'const TAGS = ' + json.dumps(TAGS) + ';' + chr(10) + 'const GROUPS = ' + json.dumps([g for g in groups if g['sets']]) + ';' + chr(10))  # .js, not .json: fetch() is blocked on file://
 (HERE / 'clawd-md.js').write_text('const CLAWD_MD = ' + json.dumps((HERE / 'clawd.md').read_text(encoding='utf-8')) + ';' + chr(10), encoding='utf-8')  # inlined so the dialog works from file:// too
 print(len(names), 'sets')
+import re, time  # cache-bust: a visitor's browser must not mix a new index.html with an old sets.js
+idx = HERE / 'index.html'
+idx.write_text(re.sub(r'(sets\.js|clawd-md\.js)\?v=\w+', lambda m: f'{m.group(1)}?v={int(time.time())}', idx.read_text(encoding='utf-8')), encoding='utf-8')
