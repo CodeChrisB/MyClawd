@@ -27,7 +27,6 @@ GROUPS = {  # section title -> sets, in display order; anything unlisted lands i
     'Weather': ['sunny', 'partly-cloudy', 'cloudy', 'rain', 'snow', 'thunder', 'hurricane'],
     'Speech': ['right', 'lets-look', 'tests-pass', 'sorry', 'great-question', 'proceed', 'thinking-aloud'],
     'Dev work': ['debug', 'merge-conflict', 'lint', 'security', 'benchmark', 'api-request', 'friday-deploy'],
-    'Memes': ['this-is-fine'],
     'Misc': ['legal', 'celebrate', 'night-owl', 'new-mail', 'hello', 'overworked'],
 }
 DESC = {  # one line per set, shown under the name
@@ -82,7 +81,7 @@ DESC = {  # one line per set, shown under the name
     'friday-deploy': 'Deploying on Friday the 13th',
     'sunny': 'Sunny: green grass, shades on', 'partly-cloudy': 'Partly cloudy: clouds drift across the sun', 'cloudy': 'Cloudy: dull grass, lights on in the house',
     'rain': 'Rain: wet ground, puddles, a yellow raincoat', 'snow': 'Snow: white ground, snow piles up on Clawd', 'thunder': 'Thunder: flash and bang, the house lights up',
-    'hurricane': 'Hurricane: a spinning funnel, wind and flying debris', 'this-is-fine': 'This is fine. Clawd sips coffee while the room burns', 'night-owl': 'Working late at night',
+    'hurricane': 'Hurricane: a spinning funnel, wind and flying debris', 'night-owl': 'Working late at night',
     'new-mail': 'A new message arrives', 'hello': 'Clawd says hello',
     'idle-fall': 'Idle, falling through the clouds', 'idle-juggle': 'Idle, juggling three balls',
     'radio': 'Idle, listening to the radio', 'dj': 'Idle, DJing', 'disco': 'Idle, dancing at the disco',
@@ -94,7 +93,7 @@ GROUP_TAGS = {
     'Git': ['git', 'terminal', 'work'], 'Tools': ['tool', 'work'], 'Build and CI': ['build', 'terminal', 'work'],
     'Docs and learning': ['docs', 'learning'], 'Multimodal': ['media', 'input'], 'Context': ['context', 'status'],
     'Limits': ['limit', 'status'], 'Session': ['session'], 'Problems': ['error', 'problem'], 'Idle': ['idle', 'fun'],
-    'Idle with music': ['idle', 'music', 'fun'], 'Speech': ['speech', 'talk', 'fun'], 'Weather': ['weather', 'sky', 'nature'], 'Memes': ['meme', 'fun'], 'Dev work': ['dev', 'work', 'program'], 'Misc': ['fun'],
+    'Idle with music': ['idle', 'music', 'fun'], 'Speech': ['speech', 'talk', 'fun'], 'Weather': ['weather', 'sky', 'nature'], 'Dev work': ['dev', 'work', 'program'], 'Misc': ['fun'],
 }
 SET_TAGS = {
     'bash': ['terminal', 'shell', 'command'], 'browser': ['program', 'web', 'chrome'], 'search': ['web', 'internet'],
@@ -110,7 +109,7 @@ SET_TAGS = {
     'code-review': ['code', 'diff'], 'handoff': ['session'], 'done': ['session', 'success'], 'update-available': ['version'],
     'radio': ['music'], 'dj': ['music'], 'disco': ['music'], 'celebrate': ['party', 'success'], 'night-owl': ['night', 'time'],
     'new-mail': ['message', 'notification'], 'hello': ['greeting'], 'scheduled-task': ['time', 'cron'], 'legal': ['info'],
-    'overworked': ['work', 'stress', 'coffee'], 'friday-deploy': ['deploy', 'time', 'risk', 'terminal'], 'this-is-fine': ['fire', 'coffee'],
+    'overworked': ['work', 'stress', 'coffee'], 'friday-deploy': ['deploy', 'time', 'risk', 'terminal'],
     'sunny': ['sun', 'warm'], 'partly-cloudy': ['clouds', 'sun'], 'cloudy': ['clouds', 'grey'], 'rain': ['rain', 'wet', 'umbrella'],
     'snow': ['snow', 'cold', 'winter'], 'thunder': ['storm', 'lightning'], 'hurricane': ['storm', 'wind'],
     'celebrate': ['party', 'success', 'friend'], 'idle-fall': ['animation'], 'idle-juggle': ['animation'],

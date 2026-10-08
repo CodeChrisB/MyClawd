@@ -139,7 +139,6 @@ This lets a player switch from any GIF to any other without a jump. `save_set` c
 | Dev work: a bug and a stepping debugger, merge conflict markers, lint squiggles and a format sweep, a secret scan, a stopwatch and flame graph, HTTP status chips | `dev_sets.py` | `debug`, `merge-conflict`, `lint`, `security`, `benchmark`, `api-request` |
 | Small misc scenes: confetti, balloons, fireworks, a night sky and clock, mail into an inbox, a speech bubble | `fun_sets.py` | `celebrate`, `night-owl`, `new-mail`, `hello` |
 | Weather without a panel (sun, clouds, rain, snow, lightning, a spinning storm), accessories, seamless loops without a duplicate end frame | `weather_sets.py`, `seamless.py` | `sunny` ... `hurricane` |
-| A whole room scene: walls, flames, furniture, uncovered while Clawd walks in | `fine_scene.py` | `this-is-fine` |
 | Speech bubbles with a 3x5 font at any scale | `speech_sets.py`, `font3.py` | `right`, `sorry`, ... |
 | Two Clawds and a cake | `party_sets.py` | `celebrate` |
 
