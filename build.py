@@ -24,7 +24,8 @@ GROUPS = {  # section title -> sets, in display order; anything unlisted lands i
     'Idle': ['idle', 'idle-coffee', 'idle-book', 'idle-chat', 'idle-doze', 'idle-heart', 'idle-look', 'idle-swag', 'idle-walk', 'idle-yawn',
              'idle-fall', 'idle-juggle'],
     'Idle with music': ['radio', 'dj', 'disco'],
-    'Misc': ['legal'],
+    'Dev work': ['debug', 'merge-conflict', 'lint', 'security', 'benchmark', 'api-request'],
+    'Misc': ['legal', 'celebrate', 'night-owl', 'new-mail', 'hello'],
 }
 DESC = {  # one line per set, shown under the name
     'thinking': 'Claude is thinking', 'writing': 'Claude is writing or editing code', 'reading': 'Claude is reading files',
@@ -68,8 +69,38 @@ DESC = {  # one line per set, shown under the name
     'idle': 'Claude is waiting for you', 'idle-chat': 'Idle, chatting with a friend', 'idle-doze': 'Idle, dozing off',
     'idle-heart': 'Idle, feeling the love', 'idle-look': 'Idle, looking around', 'idle-swag': 'Idle, with swag',
     'idle-walk': 'Idle, taking a walk', 'idle-yawn': 'Idle, yawning',
+    'debug': 'Claude hunts a bug or steps through code', 'merge-conflict': 'Claude resolves a merge conflict',
+    'lint': 'Claude formats the file and clears the warnings', 'security': 'Claude scans for leaked secrets and audits packages',
+    'benchmark': 'Claude measures speed and reads a flame graph', 'api-request': 'Claude calls an API: 200, 404 or 500',
+    'celebrate': 'Party time: popper, balloons, fireworks', 'night-owl': 'Working late at night',
+    'new-mail': 'A new message arrives', 'hello': 'Clawd says hello',
     'idle-fall': 'Idle, falling through the clouds', 'idle-juggle': 'Idle, juggling three balls',
     'radio': 'Idle, listening to the radio', 'dj': 'Idle, DJing', 'disco': 'Idle, dancing at the disco',
+}
+
+# Search tags: every set gets its category's tags plus its own
+GROUP_TAGS = {
+    'Working': ['work'], 'Modes': ['mode', 'settings'], 'Effort': ['effort', 'settings'], 'Agents': ['agent', 'work'],
+    'Git': ['git', 'terminal', 'work'], 'Tools': ['tool', 'work'], 'Build and CI': ['build', 'terminal', 'work'],
+    'Docs and learning': ['docs', 'learning'], 'Multimodal': ['media', 'input'], 'Context': ['context', 'status'],
+    'Limits': ['limit', 'status'], 'Session': ['session'], 'Problems': ['error', 'problem'], 'Idle': ['idle', 'fun'],
+    'Idle with music': ['idle', 'music', 'fun'], 'Dev work': ['dev', 'work', 'program'], 'Misc': ['fun'],
+}
+SET_TAGS = {
+    'bash': ['terminal', 'shell', 'command'], 'browser': ['program', 'web', 'chrome'], 'search': ['web', 'internet'],
+    'web-fetch': ['web', 'internet'], 'trading': ['program', 'finance', 'money'], 'excel': ['program', 'office'],
+    'powerpoint': ['program', 'office'], 'pdf': ['program', 'office', 'document'], 'video': ['program'],
+    'multitasking': ['program', 'windows'], 'ide-connected': ['program', 'editor'], 'writing': ['code', 'editor'],
+    'reading': ['code', 'editor'], 'thinking': ['brain', 'idea'], 'deploy': ['terminal', 'server'], 'database': ['server', 'data'],
+    'download': ['network', 'files'], 'cwd': ['terminal', 'folder'], 'session-start': ['terminal', 'start'], 'prompt': ['terminal', 'input'],
+    'login': ['terminal', 'account'], 'resume': ['terminal'], 'clear': ['terminal'], 'crash': ['terminal'], 'offline': ['network'],
+    'overloaded': ['network', 'api'], 'stop-failure': ['api'], 'api-request': ['api', 'network', 'http', 'terminal'],
+    'debug': ['bug', 'terminal', 'fix'], 'lint': ['format', 'code', 'terminal'], 'security': ['secrets', 'safety', 'audit'],
+    'benchmark': ['performance', 'speed'], 'merge-conflict': ['git', 'code'], 'testing': ['tests', 'terminal'],
+    'code-review': ['code', 'diff'], 'handoff': ['session'], 'done': ['session', 'success'], 'update-available': ['version'],
+    'radio': ['music'], 'dj': ['music'], 'disco': ['music'], 'celebrate': ['party', 'success'], 'night-owl': ['night', 'time'],
+    'new-mail': ['message', 'notification'], 'hello': ['greeting'], 'scheduled-task': ['time', 'cron'], 'legal': ['info'],
+    'idle-fall': ['animation'], 'idle-juggle': ['animation'],
 }
 RENAME = {'gitfind': 'git', 'context': 'context-full'}  # source folder -> published name (sets/, zips/, folder inside the zip, title)
 FILES = ('full', 'enter', 'exit')  # plus every loop*.gif of the set
@@ -96,9 +127,22 @@ for s in sorted(p for p in SRC.iterdir() if p.is_dir() and p.name not in EXCLUDE
     names.append(name)
     PLAY[name] = {'enter': ms(out / 'enter.gif'), 'exit': ms(out / 'exit.gif'), 'loops': [[g, ms(out / g)] for g in gifs if g.startswith('loop')]}
 all_zip.close()
+import datetime, subprocess
+def added(n):  # date the set first entered the repo, today for a set that is not committed yet
+    try:
+        out = subprocess.run(['git', 'log', '--diff-filter=A', '--format=%as', '--', f'sets/{n}/enter.gif'], cwd=HERE, capture_output=True, text=True).stdout.split()
+        return out[-1] if out else datetime.date.today().isoformat()
+    except Exception:
+        return datetime.date.today().isoformat()
+ADDED = {n: added(n) for n in names}
+TAGS = {}
+for t, g in GROUPS.items():
+    for n in g:
+        if n in names:
+            TAGS[n] = sorted(set(GROUP_TAGS.get(t, []) + SET_TAGS.get(n, [])))
 groups = [{'title': t, 'sets': [n for n in g if n in names]} for t, g in GROUPS.items()]
 rest = [n for n in names if not any(n in g for g in GROUPS.values())]
 if rest: groups.append({'title': 'Other', 'sets': rest})
-(HERE / 'sets.js').write_text('const DESC = ' + json.dumps(DESC) + ';' + chr(10) + 'const PLAY = ' + json.dumps(PLAY) + ';' + chr(10) + 'const GROUPS = ' + json.dumps([g for g in groups if g['sets']]) + ';' + chr(10))  # .js, not .json: fetch() is blocked on file://
+(HERE / 'sets.js').write_text('const DESC = ' + json.dumps(DESC) + ';' + chr(10) + 'const PLAY = ' + json.dumps(PLAY) + ';' + chr(10) + 'const ADDED = ' + json.dumps(ADDED) + ';' + chr(10) + 'const TAGS = ' + json.dumps(TAGS) + ';' + chr(10) + 'const GROUPS = ' + json.dumps([g for g in groups if g['sets']]) + ';' + chr(10))  # .js, not .json: fetch() is blocked on file://
 (HERE / 'clawd-md.js').write_text('const CLAWD_MD = ' + json.dumps((HERE / 'clawd.md').read_text(encoding='utf-8')) + ';' + chr(10), encoding='utf-8')  # inlined so the dialog works from file:// too
 print(len(names), 'sets')
