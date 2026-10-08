@@ -150,6 +150,7 @@
   .added { color:var(--muted); font-size:12px; opacity:.8; margin-top:2px; }
   .none { color:var(--muted); margin:32px 0; text-align:center; }
   .none[hidden] { display:none; }
+  .nonelink { color:var(--accent); font-weight:600; text-decoration:underline; text-underline-offset:3px; }
   .foot2 { display:flex; justify-content:space-between; align-items:flex-end; gap:8px; width:100%; }
   .foot2 .tags { flex:1; }
   .var { display:inline-flex; align-items:center; gap:4px; flex:none; color:var(--muted); font:600 12px system-ui; white-space:nowrap; }
@@ -187,7 +188,7 @@
 <a class="all" href="zips/MyClawd-all.zip" download><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>Download all</a></div></div>
 <div class="search"><input id="q" type="search" placeholder="Search animations or #tags" autocomplete="off" aria-label="Search animations" aria-controls="sug"><ul class="sug" id="sug" role="listbox" hidden></ul></div>
 <div class="tags" id="alltags" aria-label="Popular tags"></div>
-<p class="none" id="none" hidden>Nothing found. Try another word or a tag, or <a class="mdlink" href="#create">create your own</a>.</p>
+<p class="none" id="none" hidden>Nothing found. Try another word or a tag, or <a class="nonelink" href="#create">create your own</a>.</p>
 <main id="grid"></main>
 </div>
 <div class="page" id="create" hidden><main class="doc">
@@ -236,8 +237,8 @@
   <div class="mdhead"><strong>clawd.md</strong><a href="https://github.com/CodeChrisB/MyClawd/blob/main/clawd.md" target="_blank" rel="noopener">open on GitHub</a></div>
   <article class="md" id="mdbody">Loading...</article></div></dialog>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
-<script src="sets.js?v=1791490614"></script>
-<script src="clawd-md.js?v=1791490614"></script>
+<script src="sets.js?v=1791490660"></script>
+<script src="clawd-md.js?v=1791490660"></script>
 <script>
 if (typeof ADDED === 'undefined') window.ADDED = {};      // an older cached sets.js must not break the page
 if (typeof TAGS === 'undefined') window.TAGS = {};
@@ -389,7 +390,7 @@ document.querySelectorAll('.copybtn').forEach(b => b.addEventListener('click', a
 }));
 
 const mddlg = document.getElementById('mddlg');
-document.querySelector('a.mdlink').addEventListener('click', e => {
+document.querySelector('#create a.mdlink').addEventListener('click', e => {
   e.preventDefault();                                                       // still a plain GitHub link if the script cannot run
   const body = document.getElementById('mdbody');
   if (typeof CLAWD_MD === 'undefined') { window.open(e.currentTarget.href, '_blank', 'noopener'); return; }
