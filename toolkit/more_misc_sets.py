@@ -263,7 +263,7 @@ def ash(draw, t, grow):
 def sparks(draw, t, grow):
     for k in range(8):
         sx = 24 + k * 20 + round(3 * math.sin(2 * math.pi * t / 8 + k))
-        sy = 50 - (t * 6 + k * 7) % 44
+        sy = 50 - (t * 6 + k * 7) % 48
         if grow > .4:
             R(draw, sx, sy, 1, 2, F_YELLOW)
 
@@ -293,7 +293,16 @@ def seat_front(draw):
     R(draw, 64, 51, 4, GROUND - 51, (118, 80, 50))
 
 
-def fine_frame(t=0, grow=1.0, mug=(84, 32), arm_level=0, blink=False, lid=0.3, plank=None, bubble=0, look=(0, 0), slide=0):
+def hat_on(draw, head_top, dx=0):
+    R(draw, OX + 13 + dx, head_top - 6, 22, 6, (30, 30, 36))
+    R(draw, OX + 7 + dx, head_top, 34, 2, (30, 30, 36))
+    R(draw, OX + 13 + dx, head_top - 2, 22, 1, (150, 40, 44))
+    R(draw, OX + 15 + dx, head_top - 5, 6, 1, (78, 78, 90))
+
+
+def fine_frame(t=0, grow=1.0, mug=(84, 32), arm_level=0, blink=False, lid=0.3, plank=None, bubble=0, look=(0, 0), slide=0,
+               dx=0, walk=None, sitting=True, bob=0):
+    """sitting: Clawd sits on the chair (behind the seat). Otherwise he stands or walks in front of it at bob."""
     img, draw = new_frame()
     backdrop(draw, t, grow)
     flames(draw, WALL_F[:4], t, grow)
@@ -307,14 +316,20 @@ def fine_frame(t=0, grow=1.0, mug=(84, 32), arm_level=0, blink=False, lid=0.3, p
         R(draw, px, py, 30, 1, F_ORANGE)
         for k in range(sp):
             R(draw, px + 4 + k * 5, py - 3 - (k * 3) % 5, 1, 1, F_YELLOW)
-    clawd(draw, look=look, blink=blink, lid=lid, bob=-2)
-    arm(draw, arm_level, -2)
-    draw_smile(draw, OX + 4 * G, OY + 2 * G + 1 - 2)
-    R(draw, OX + 13, 0, 22, 6, (30, 30, 36))                     # his little hat
-    R(draw, OX + 7, 6, 34, 2, (30, 30, 36))
-    R(draw, OX + 13, 4, 22, 1, (150, 40, 44))
-    R(draw, OX + 15, 1, 6, 1, (78, 78, 90))
-    seat_front(draw)
+
+    def me():
+        b = -2 if sitting else bob
+        clawd(draw, look=look, blink=blink, lid=lid, bob=b, dx=dx, walk=walk)
+        arm(draw, arm_level, b) if dx == 0 else None
+        draw_smile(draw, OX + 4 * G + dx, OY + 2 * G + 1 + b)
+        hat_on(draw, OY + b, dx)
+
+    if sitting:
+        me()
+        seat_front(draw)
+    else:
+        seat_front(draw)
+        me()
     flames(draw, FLOOR_F[1::2], t, grow * .75)                   # near floor flames in front
     sparks(draw, t, grow)
     ash(draw, t, grow)
@@ -333,12 +348,23 @@ def fine_rest(t=0):
     return fine_frame(t)
 
 
+WALK_IN = [-92, -74, -56, -38, -22, -10, -2]
+
+
 def fine_enter():
-    return [fine_frame(i, grow=g) for i, g in enumerate((0.0, .25, .5, .75, .9))] + [fine_frame(0)]
+    n = len(WALK_IN) + 3
+    fr = [fine_frame(i - (n - 1), dx=dx, walk=i % 2, sitting=False, look=(2, 0)) for i, dx in enumerate(WALK_IN)]
+    fr.append(fine_frame(1 - 1 - 2 + 0 - (n - len(fr) - 1) + (n - len(fr) - 1) - 0 if False else len(fr) - (n - 1), sitting=False, look=(0, 0)))
+    fr.append(fine_frame(len(fr) - (n - 1), sitting=False, bob=-5))
+    fr.append(fine_frame(len(fr) - (n - 1), sitting=False, bob=-3))
+    return fr[:n - 1] + [fine_rest(0)]
 
 
 def fine_leave():
-    return [fine_frame(0)] + [fine_frame(i + 1, grow=g) for i, g in enumerate((.9, .7, .45, .2, 0.0))]
+    fr = [fine_rest(0), fine_frame(1, sitting=False, bob=-3), fine_frame(2, sitting=False, bob=-5), fine_frame(3, sitting=False)]
+    for i, dx in enumerate(reversed(WALK_IN)):
+        fr.append(fine_frame(4 + i, dx=dx, walk=i % 2, sitting=False, look=(-2, 0)))
+    return fr
 
 
 def fine_sip():
@@ -368,6 +394,8 @@ def fine_plank():
         fr.append(fine_frame(n + 14 + i, bubble=1.0, plank=(78, 46, 4 - i // 3), blink=i == 5))
     for i in range(2):
         fr.append(fine_frame(n + 24 + i, bubble=1.0))
+    for i in range(2):
+        fr.append(fine_frame(n + 26 + i, bubble=0.6 - i * 0.3))
     while len(fr) % 8:
         fr.append(fine_rest(len(fr)))
     return fr + [fine_rest(0)]
