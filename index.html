@@ -15,7 +15,7 @@
   :root { --bg:#faf9f5; --card:#fff; --ink:#1f1e1d; --muted:#6b6a68; --line:#e8e6dc; --stage:#dddcd7; --accent:#d4845a; /* Clawd coral */ }
   @media (prefers-color-scheme: dark) { :root { --bg:#1a1918; --card:#262523; --ink:#f0eee6; --muted:#9a9890; --line:#383632; --stage:#3f3e3b; } }
   * { box-sizing: border-box; }
-  body { margin:0; padding:0 0 32px; background:var(--bg); color:var(--ink); font:16px/1.4 system-ui,sans-serif; }
+  body { margin:0; padding:0 0 32px; min-height:100vh; display:flex; flex-direction:column; background:var(--bg); color:var(--ink); font:16px/1.4 system-ui,sans-serif; }
   .head { max-width:1100px; margin:0 auto 24px; display:flex; flex-wrap:wrap; gap:24px; justify-content:space-between; align-items:flex-start; }
   .side { display:flex; flex-direction:column; align-items:flex-end; }
   .head > div:first-child { flex:1 1 420px; }
@@ -103,7 +103,7 @@
   .fine a.mdlink { font-weight:500; }
   .legal-gif .stage { cursor:default; }
   .legal-gif img { width:100%; height:auto; aspect-ratio:3/1; image-rendering:pixelated; display:block; }
-  .fl { max-width:1100px; margin:72px auto 0; padding:0 16px 8px; text-align:right; }
+  .fl { width:100%; max-width:1100px; margin:auto auto 0; padding:72px 16px 8px; text-align:right; }
   .fl a { font-size:11px; color:var(--muted); opacity:.55; text-decoration:none; }
   .fl a:hover, .fl a:focus-visible { opacity:1; text-decoration:underline; outline:none; }
   .doc { max-width:760px; }
