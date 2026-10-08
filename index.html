@@ -132,7 +132,7 @@
   button.all { background:none; font-family:inherit; line-height:inherit; cursor:pointer; }
   button.all[aria-pressed="true"] { border-color:var(--accent); }
   #grid.flat { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:16px; }
-  #grid.flat details.grp, #grid.flat section { display:contents; }
+  #grid.flat details.grp, #grid.flat details.grp::details-content, #grid.flat section { display:contents; }   /* ::details-content is an extra box that would otherwise become one grid item per category */
   #grid.flat details.grp > summary { display:none; }
   #grid.flat details.grp[hidden] { display:none; }
   .all:hover, .all:focus-visible { background:var(--accent); border-color:var(--accent); color:#fff; outline:none; }
