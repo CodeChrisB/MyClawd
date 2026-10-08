@@ -150,6 +150,12 @@
   .added { color:var(--muted); font-size:12px; opacity:.8; margin-top:2px; }
   .none { color:var(--muted); margin:32px 0; text-align:center; }
   .none[hidden] { display:none; }
+  .foot2 { display:flex; justify-content:space-between; align-items:flex-end; gap:8px; width:100%; }
+  .foot2 .tags { flex:1; }
+  .var { display:inline-flex; align-items:center; gap:4px; flex:none; color:var(--muted); font:600 12px system-ui; white-space:nowrap; }
+  .var svg { width:13px; height:13px; }
+  .bigmeta { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-top:10px; }
+  .bigmeta .tags { flex:1; }
 </style>
 </head>
 <body>
@@ -201,6 +207,7 @@
 <footer class="fl" id="fl"><a href="#legal">Legal</a></footer>
 <dialog id="dlg"><div class="box"><button class="x" aria-label="Close">&times;</button>
   <div class="stage"><img id="big" alt=""></div><h3 id="bigname"></h3><div class="desc" id="bigdesc"></div><div class="added" id="bigadded"></div>
+  <div class="bigmeta"><div class="tags" id="bigtags"></div><span class="var" id="bigvar"></span></div>
   <div class="dact">
     <a class="btn" id="bigdl" download><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>Download</a>
     <button class="btn icon" id="bigcopy" type="button" title="Copy link to the GIF" aria-label="Copy link to the GIF"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button>
@@ -210,18 +217,20 @@
   <div class="mdhead"><strong>clawd.md</strong><a href="https://github.com/CodeChrisB/MyClawd/blob/main/clawd.md" target="_blank" rel="noopener">open on GitHub</a></div>
   <article class="md" id="mdbody">Loading...</article></div></dialog>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
-<script src="sets.js?v=1791488032"></script>
-<script src="clawd-md.js?v=1791488032"></script>
+<script src="sets.js?v=1791488080"></script>
+<script src="clawd-md.js?v=1791488080"></script>
 <script>
 if (typeof ADDED === 'undefined') window.ADDED = {};      // an older cached sets.js must not break the page
 if (typeof TAGS === 'undefined') window.TAGS = {};
+const loopIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 2l4 4-4 4M3 11V9a4 4 0 0 1 4-4h14M7 22l-4-4 4-4M21 13v2a4 4 0 0 1-4 4H3"/></svg>';
 const svg = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>';
 const card = n => `
   <div class="card">
     <button class="stage" data-set="${n}" aria-label="Enlarge ${n}"><img src="sets/${n}/full.gif" alt="${n}" width="192" height="64" loading="lazy"></button>
     <div class="row"><div><div class="name">${n.replace(/-/g, ' ').replace(/api/, 'API')}</div><div class="desc">${DESC[n] || ''}</div><div class="added">Added: ${ADDED[n] || ''}</div></div>
     <a class="dl" href="zips/${n}.zip" download title="Download ${n} (full, enter, exit, all loops)" aria-label="Download ${n}">${svg}</a></div>
-    <div class="tags">${(TAGS[n] || []).map(t => `<button class="tag" data-tag="${t}">${t}</button>`).join('')}</div>
+    <div class="foot2"><div class="tags">${(TAGS[n] || []).map(t => `<button class="tag" data-tag="${t}">${t}</button>`).join('')}</div>
+      <span class="var" title="${PLAY[n].loops.length} loop variant${PLAY[n].loops.length === 1 ? '' : 's'}">${loopIcon}${PLAY[n].loops.length}</span></div>
   </div>`;
 document.getElementById('count-note').innerHTML = (() => {                  // totals are counted from the same data the page uses
   const sets = GROUPS.reduce((n, g) => n + g.sets.length, 0), loops = Object.values(PLAY).reduce((n, p) => n + p.loops.length, 0);
@@ -285,6 +294,7 @@ q.addEventListener('blur', () => setTimeout(() => sug.hidden = true, 100));
 document.addEventListener('click', e => {
   const b = e.target.closest('.tag'); if (!b) return;
   q.value = '#' + b.dataset.tag; sug.hidden = true; applyFilter();
+  document.getElementById('dlg')?.close();
   document.getElementById('animations').scrollIntoView({ block: 'start' });
 });
 
@@ -379,6 +389,9 @@ document.getElementById('grid').addEventListener('click', e => {
   document.getElementById('bigname').textContent = n.replace(/-/g, ' ').replace(/api/, 'API');
   document.getElementById('bigdesc').textContent = DESC[n] || '';
   document.getElementById('bigadded').textContent = 'Added: ' + (ADDED[n] || '');
+  document.getElementById('bigtags').innerHTML = (TAGS[n] || []).map(t => `<button class="tag" data-tag="${t}">${t}</button>`).join('');
+  const lc = PLAY[n].loops.length;
+  document.getElementById('bigvar').innerHTML = `${loopIcon}${lc} loop variant${lc === 1 ? '' : 's'}`;
   document.getElementById('bigdl').href = `zips/${n}.zip`;
   document.getElementById('bigdl').title = `Download ${n} (full, enter, exit, all loops)`;
   document.getElementById('bigcopy').dataset.set = n;
