@@ -196,8 +196,8 @@ WALL_F = [(152, GROUND, 30, 16, 3, 0.3), (168, GROUND, 40, 20, 3, 1.4), (184, GR
 CEIL_F = [(cx, 1, 8 + (cx * 5) % 6, 11, 2, cx * 0.3) for cx in range(14, 192, 28)]
 
 
-def flame(draw, cx, base, h, w, sway=0.0, down=False):
-    """One flame tongue, pixel rows: red outside, orange inside, yellow core."""
+def flame(draw, cx, base, h, w, sway=0.0, down=False, dim=0.0):
+    """One flame tongue, pixel rows: red outside, orange inside, yellow core. dim darkens far flames for depth."""
     for i in range(h):
         t = i / h
         ww = max(1, round(w * (1 - t) ** 0.8))
@@ -206,15 +206,15 @@ def flame(draw, cx, base, h, w, sway=0.0, down=False):
         for frac, col, lim in ((1.0, F_RED, 1.0), (.62, F_ORANGE, .85), (.3, F_YELLOW, .55)):
             if t < lim:
                 w2 = max(1, round(ww * frac))
-                R(draw, cx - w2 // 2 + off, y, w2, 1, col)
+                R(draw, cx - w2 // 2 + off, y, w2, 1, mix(col, WALL_TOP, dim) if dim else col)
 
 
-def flames(draw, specs, t, grow, down=False):
+def flames(draw, specs, t, grow, down=False, dim=0.0):
     p = 2 * math.pi * t / 8
     for cx, base, h, w, sway, ph in specs:
         hh = round(h * grow * (0.88 + 0.12 * math.sin(p + ph) + 0.06 * math.sin(2 * p + ph * 2)))
         if hh >= 2:
-            flame(draw, cx, base, hh, round(w * (0.5 + 0.5 * grow)), sway * math.sin(p + ph), down)
+            flame(draw, cx, base, hh, round(w * (0.5 + 0.5 * grow)), sway * math.sin(p + ph), down, dim)
 
 
 def backdrop(draw, t, grow):
@@ -225,9 +225,21 @@ def backdrop(draw, t, grow):
     for x in range(1, 190, 24):
         R(draw, x, 52, 1, 11, FLOOR_D)
     R(draw, 1, 51, 190, 2, FLOOR_D)                          # skirting
-    R(draw, 96, 8, 20, 15, (150, 104, 66))                   # picture frame
-    R(draw, 98, 10, 16, 11, (126, 150, 176))
-    R(draw, 100, 16, 12, 5, (92, 130, 96))
+    for x in range(90, 191):                                  # firelight on the right wall
+        k = min(1.0, (x - 90) / 100) * .38 * grow
+        for y in range(2, 51):
+            if (x + y) % 2 == 0:
+                R(draw, x, y, 1, 1, mix(mix(WALL_TOP, WALL_BOT, min(1.0, max(0.0, (y - 4) / 50)) * (0.35 + 0.65 * grow)), (210, 96, 40), k))
+    R(draw, 84, 10, 17, 14, (150, 104, 66))                   # picture frame
+    R(draw, 86, 12, 13, 10, (126, 150, 176))
+    R(draw, 88, 17, 9, 5, (92, 130, 96))
+    R(draw, 118, 6, 30, 28, (150, 104, 66))                   # window: the garden is on fire too
+    for i in range(24):
+        R(draw, 121, 9 + i, 24, 1, mix((250, 190, 70), (190, 60, 34), i / 24))
+    R(draw, 132, 9, 2, 24, (150, 104, 66))
+    R(draw, 121, 20, 24, 2, (150, 104, 66))
+    R(draw, 116, 4, 5, 32, (170, 60, 60))                     # curtains
+    R(draw, 145, 4, 5, 32, (170, 60, 60))
     smoke(draw, t, grow)
 
 
@@ -236,7 +248,16 @@ def smoke(draw, t, grow):
     for k in range(6):
         x = 4 + k * 32 + round(3 * math.sin(p + k))
         h = 2 + round(4 * grow * (1 + math.sin(p + k * 1.7)) / 2)
-        R(draw, x, 1, 28, h, (44, 38, 44))
+        R(draw, x, 1, 28, h, (40, 34, 40))
+        R(draw, x + 6, 1 + h, 16, max(1, h // 2), (52, 44, 50))
+
+
+def ash(draw, t, grow):
+    for k in range(9):
+        ax = 14 + k * 21 + round(2 * math.sin(2 * math.pi * t / 8 + k * 2))
+        ay = 4 + (k * 9 + t * 6) % 48
+        if grow > .4 and 88 > ay > 6:
+            R(draw, ax, ay, 1, 1, (150, 146, 150))
 
 
 def sparks(draw, t, grow):
@@ -272,12 +293,13 @@ def seat_front(draw):
     R(draw, 64, 51, 4, GROUND - 51, (118, 80, 50))
 
 
-def fine_frame(t=0, grow=1.0, mug=(84, 32), arm_level=0, blink=False, lid=0.0, plank=None, bubble=0, look=(2, 0), slide=0):
+def fine_frame(t=0, grow=1.0, mug=(84, 32), arm_level=0, blink=False, lid=0.3, plank=None, bubble=0, look=(0, 0), slide=0):
     img, draw = new_frame()
     backdrop(draw, t, grow)
-    flames(draw, WALL_F, t, grow)
+    flames(draw, WALL_F[:4], t, grow)
+    flames(draw, WALL_F[4:], t, grow, dim=.35)
     flames(draw, CEIL_F, t, grow, down=True)
-    flames(draw, FLOOR_F[::2], t + 2, grow)                      # far floor flames, behind the furniture
+    flames(draw, FLOOR_F[::2], t + 2, grow, dim=.3)              # far floor flames, behind the furniture
     furniture(draw, mug, t)
     if plank is not None:
         px, py, sp = plank
@@ -285,12 +307,17 @@ def fine_frame(t=0, grow=1.0, mug=(84, 32), arm_level=0, blink=False, lid=0.0, p
         R(draw, px, py, 30, 1, F_ORANGE)
         for k in range(sp):
             R(draw, px + 4 + k * 5, py - 3 - (k * 3) % 5, 1, 1, F_YELLOW)
-    clawd(draw, look=look, blink=blink, lid=lid, bob=-4)
-    arm(draw, arm_level, -4)
-    draw_smile(draw, OX + 4 * G, OY + 2 * G + 1 - 4)
+    clawd(draw, look=look, blink=blink, lid=lid, bob=-2)
+    arm(draw, arm_level, -2)
+    draw_smile(draw, OX + 4 * G, OY + 2 * G + 1 - 2)
+    R(draw, OX + 13, 0, 22, 6, (30, 30, 36))                     # his little hat
+    R(draw, OX + 7, 6, 34, 2, (30, 30, 36))
+    R(draw, OX + 13, 4, 22, 1, (150, 40, 44))
+    R(draw, OX + 15, 1, 6, 1, (78, 78, 90))
     seat_front(draw)
     flames(draw, FLOOR_F[1::2], t, grow * .75)                   # near floor flames in front
     sparks(draw, t, grow)
+    ash(draw, t, grow)
     if bubble:
         bx, by, w, h = 120, 4, 7 * 8 + 10, 2 * 12 + 6
         R(draw, bx, by, round(w * min(1.0, bubble)), h, WHITE)
@@ -321,7 +348,7 @@ def fine_sip():
     for i in range(5):  # the mug floats up to the hand
         fr.append(fine_frame(n + i, mug=path[i], arm_level=1 if i > 0 else 0))
     for i in range(8):  # sip, calm as ever
-        fr.append(fine_frame(n + 5 + i, mug=path[4], arm_level=1, lid=.6 if 2 <= i < 6 else 0.0, blink=i == 3))
+        fr.append(fine_frame(n + 5 + i, mug=path[4], arm_level=1, lid=.7 if 2 <= i < 6 else 0.3, blink=i == 3))
     for i in range(5):
         fr.append(fine_frame(n + 13 + i, mug=path[3 - i] if i < 4 else (84, 32), arm_level=1 if i < 3 else 0))
     while len(fr) % 8:
