@@ -1,7 +1,7 @@
-"""Thinking, redrawn smooth: a thought cloud with three meshing gears, drawn at 4x and scaled down (anti-aliased).
+"""Thinking, redrawn smooth: a thought cloud with three hopping dots, drawn at 4x and scaled down (anti-aliased).
 
 python thinking_sets.py  ->  ../mine/thinking/
-Seam = gears at angle 0 inside the cloud. Every loop turns the gears, plays its own idea, and the gears pop back at angle 0.
+Seam = dots at phase 0 inside the cloud. Every loop hops the dots, plays its own idea, and the dots pop back at phase 0.
 The cloud has no panel: the edge alpha is thresholded so no anti-aliased fringe appears on the transparent canvas.
 """
 import math
@@ -53,6 +53,14 @@ def gear(d, ox, g, theta, scale=1.0):
     d.ellipse([cx - Rr * 0.2, cy - Rr * 0.2, cx + Rr * 0.2, cy + Rr * 0.2], fill=CLOUD)
 
 
+def hop_dots(d, ox, theta, scale=1.0):
+    """Three dots hop one after another; theta 72 = one hop cycle, so theta 0 is the seam."""
+    for i in range(3):
+        h = max(0.0, math.sin(math.radians(theta * 5) - i * 1.9))
+        cx, cy, r = (ox + 34 + i * 10) * SS, (32 - 7 * h * scale) * SS, 4 * SS * scale
+        d.ellipse([cx - r, cy - r, cx + r, cy + r], fill=CORAL_G if i == 1 else STEEL)
+
+
 def cloud(d, ox):
     for pad, color in ((1.2, CLOUD_EDGE), (0, CLOUD)):
         for cx, cy, r in CIRCLES:
@@ -96,8 +104,7 @@ def thinking_frame(theta=0.0, gscale=1.0, bulb_s=0.0, glow=0, dots_f=None, check
     d = ImageDraw.Draw(big)
     cloud(d, x0)
     if gscale > 0:
-        for g in GEARS:
-            gear(d, x0, g, math.radians(theta), gscale)
+        hop_dots(d, x0, theta, gscale)
     if bulb_s > 0:
         bulb(d, x0, bulb_s, glow)
     if dots_f is not None:
@@ -186,4 +193,4 @@ def slide(n, reverse):
 
 
 if __name__ == "__main__":
-    save_set("thinking", lambda: slide(ENTER, False), [gears_loop, idea_loop, dots_loop, found_loop], lambda: slide(EXIT, True))
+    save_set("thinking", lambda: slide(ENTER, False), [gears_loop, idea_loop, found_loop], lambda: slide(EXIT, True))
